@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 BITPlan GmbH
+ * Copyright (C) 2013 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -39,7 +39,7 @@ public class TestPdfindexer {
 	 * @param htmlFilePath
 	 */
 	public void testPdfIndexer(String srcDir,String indexFolderPath, String searchPhrase,String htmlFilePath) {
-		String[] args={"--src",srcDir,"--idxfile",indexFolderPath,"--search",searchPhrase,"--outputfile",htmlFilePath};
+		String[] args={"--src",srcDir,"--idxfile",indexFolderPath,"--search",searchPhrase,"--outputfile",htmlFilePath,"--root","test/"};
 		testPdfIndexer(args);
 		File indexFolder=new File(indexFolderPath);
 		assertTrue(indexFolder.isDirectory());			
@@ -47,7 +47,7 @@ public class TestPdfindexer {
 
 	@Test
 	public void testIndexing() {
-		this.testPdfIndexer("src/test/data/pdfsource1","src/test/data/index1","Lorem ipsum","/tmp/index.html");
+		this.testPdfIndexer("test/pdfsource1","test/index1","Lorem ipsum","test/index.html");
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class TestPdfindexer {
 	 */
 	@Test
 	public void testIndexingWithFiles() {
-		String[] args={"--sourceFileList","/tmp/pdffiles.lst","--idxfile","/tmp/pdfindex1","--searchWordList","/tmp/searchwords.txt","--outputfile","/tmp/pdfindex.html"};
+		String[] args={"--sourceFileList","test/pdffiles.lst","--idxfile","test/index2","--searchWordList","test/searchwords.txt","--outputfile","test/pdfindex.html","--root","test/"};
 		this.testPdfIndexer(args);
 	}
 	

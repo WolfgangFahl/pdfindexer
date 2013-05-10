@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 BITPlan GmbH
+ * Copyright (C) 2013 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -33,6 +33,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.pdfbox.Version;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.kohsuke.args4j.CmdLineException;
@@ -70,6 +71,15 @@ public class Pdfindexer {
 	@Option(name = "-s", aliases = { "--search" }, usage = "search")
 	private String search;
 
+	@Option(name = "-r", aliases = { "--root" }, usage = "root")
+	private String root;
+
+	@Option(name = "-d", aliases = { "--debug" }, usage = "debug")
+	boolean debug = false;
+
+	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion")
+	boolean showVersion = false;
+
 	private static Pdfindexer indexer;
 	private CmdLineParser parser;
 	static int exitCode;
@@ -77,6 +87,21 @@ public class Pdfindexer {
 	public List<Document> documents = new ArrayList<Document>();
 	protected IndexWriter writer;
 	protected IndexSearcher searcher = null;
+
+	/**
+	 * @return the root
+	 */
+	public String getRoot() {
+		return root;
+	}
+
+	/**
+	 * @param root
+	 *          the root to set
+	 */
+	public void setRoot(String root) {
+		this.root = root;
+	}
 
 	/**
 	 * @return the search
@@ -178,7 +203,9 @@ public class Pdfindexer {
 		if (writer == null) {
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
-			System.out.println("indexing with Lucene Version ?");
+			if (debug)
+				System.out.println("indexing with PDFBox-Lucene Version "
+						+ Version.getVersion());
 			writer = new IndexWriter(this.indexFile, analyzer, true,
 					MaxFieldLength.UNLIMITED);
 		}
@@ -192,6 +219,8 @@ public class Pdfindexer {
 	 * @throws Exception
 	 */
 	private void addToIndex(File file) throws Exception {
+		if (!file.canRead())
+			throw new IllegalArgumentException("addToIndex called with unreadabel file "+file.getPath());
 		PDDocument pddDocument = PDDocument.load(file);
 		PDFTextStripper textStripper = new PDFTextStripper();
 		for (int pageNo = 1; pageNo <= pddDocument.getNumberOfPages(); pageNo++) {
@@ -201,17 +230,32 @@ public class Pdfindexer {
 			// System.out.println(pageContent);
 			Document doc = new Document();
 
-			// Add the pagenumber
+			// Add the page number
 			doc.add(new Field("pagenumber", Integer.toString(pageNo),
 					Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field("content", pageContent, Field.Store.NO,
 					Field.Index.ANALYZED));
-			doc.add(new Field("FILE", file.getAbsolutePath(), Field.Store.YES,
+			doc.add(new Field("FILE", unRootedPath(file), Field.Store.YES,
 					Field.Index.ANALYZED));
 			documents.add(doc);
 			getIndexWriter().addDocument(doc);
 		}
-		;
+		pddDocument.close();
+	}
+
+	/**
+	 * remove root part from path
+	 * 
+	 * @param file
+	 * @return
+	 */
+	private String unRootedPath(File file) {
+		String result = file.getPath();
+		if (this.root != null)
+			if (result.startsWith(root)) {
+				result = result.substring(root.length());
+			}
+		return result;
 	}
 
 	private void close() throws Exception {
@@ -241,6 +285,8 @@ public class Pdfindexer {
 						}
 					}
 				}
+			} else {
+				throw new IllegalArgumentException("getFilesToIndex failed for '"+pSource+"' it is neither a file nor a directory");
 			}
 		}
 		return result;
@@ -258,6 +304,9 @@ public class Pdfindexer {
 		if (sourceFileList != null) {
 			List<String> lines = FileUtils.readLines(new File(sourceFileList));
 			for (String aFilepath : lines) {
+				if (root!=null) {
+					aFilepath=root+aFilepath;
+				}
 				result.addAll(getFilesToIndex(aFilepath));
 			}
 		}
@@ -271,8 +320,10 @@ public class Pdfindexer {
 	 */
 	private void createIndex() throws Exception {
 		List<File> files = getFilesToIndex();
-		for (File file : files)
+		for (File file : files) {
+			System.out.println("adding "+file.getPath()+" to index");
 			addToIndex(file);
+		}
 		close();
 	}
 
@@ -296,8 +347,10 @@ public class Pdfindexer {
 
 		try {
 			// query index
-			System.out.println("Searching for " + qString + " in " + indexFile
-					+ " — field: " + idxField);
+			if (debug) {
+				System.out.println("Searching for " + qString + " in " + indexFile
+						+ " — field: " + idxField);
+			}
 
 			// create index searcher
 			fsDir = FSDirectory.getDirectory(indexFile);
@@ -306,7 +359,8 @@ public class Pdfindexer {
 			qParser = new QueryParser(idxField, new StandardAnalyzer());
 			query = qParser.parse(qString);
 			// query = QueryParser.parse(qString, idxField, new StandardAnalyzer());
-			System.out.println(query.toString());
+			if (debug)
+				System.out.println("query: '"+query.toString()+"'");
 			// search
 			topDocs = searcher.search(query, limit);
 
@@ -329,14 +383,14 @@ public class Pdfindexer {
 	 */
 	private void displayIndex(TopDocs topDocs, PrintWriter output, String word) {
 		try {
-			output.println("<li>" + word + ":" + topDocs.totalHits);
+			output.println("      <li>" + word + ":" + topDocs.totalHits);
 			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 				Document doc = searcher.doc(scoreDoc.doc);
 				String page = doc.get("pagenumber");
-				output.println("<a href='" + doc.get("FILE") + "#page=" + page + "'>"
-						+ page + "</a>");
+				output.println("        <a href='" + doc.get("FILE") + "#page="
+						+ page.trim() + "'>" + page + "</a>");
 			}
-			output.println("</li>");
+			output.println("      </li>");
 		} catch (IOException ex) {
 			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
 		}
@@ -358,6 +412,7 @@ public class Pdfindexer {
 
 	/**
 	 * get the search words
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -380,6 +435,8 @@ public class Pdfindexer {
 	 * @throws Exception
 	 */
 	protected void work() throws Exception {
+		if (this.showVersion || this.debug)
+			showVersion();
 		if ((this.getSource() != null) || (this.getSourceFileList() != null))
 			createIndex();
 		PrintWriter output = getOutput();
@@ -399,8 +456,20 @@ public class Pdfindexer {
 	 * @param t
 	 */
 	public void handle(Throwable t) {
+		System.out.flush();
 		t.printStackTrace();
 		usage(t.getMessage());
+	}
+
+	/**
+	 * show the Version
+	 */
+	public void showVersion() {
+		System.err.println("Pdfindexer Version: " + VERSION);
+		System.err.println();
+		System.err
+				.println(" github: https://github.com/WolfgangFahl/pdfindexer.git");
+		System.err.println("");
 	}
 
 	/**
@@ -411,7 +480,8 @@ public class Pdfindexer {
 	 */
 	public void usage(String msg) {
 		System.err.println(msg);
-		System.err.println("usage: java com.bitplan.pdfindexer.Pdfindexer");
+		showVersion();
+		System.err.println("  usage: java com.bitplan.pdfindexer.Pdfindexer");
 		parser.printUsage(System.err);
 		exitCode = 1;
 	}
