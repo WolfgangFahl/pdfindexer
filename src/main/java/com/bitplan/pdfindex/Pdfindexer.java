@@ -41,7 +41,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 /**
- * indexer for PDF files
+ * indexer for PDF files inspired by
  * http://kalanir.blogspot.de/2008/08/indexing-pdf-documents-with-lucene.html
  * 
  * @author wf
@@ -53,32 +53,38 @@ public class Pdfindexer {
 	 */
 	public static final String VERSION = "0.0.1";
 
+	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
+	boolean debug = false;
+
 	@Option(name = "-f", aliases = { "--src" }, usage = "source directory/or file")
 	private String source;
 
-	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "file with source file names")
-	private String sourceFileList;
-
-	@Option(name = "-w", aliases = { "--searchWordList" }, usage = "file with search words")
-	private String searchWordList;
+	@Option(name = "-h", aliases = { "--help" }, usage = "help\nshow this usage")
+	boolean showHelp = false;
 
 	@Option(name = "-i", aliases = { "--idxfile" }, usage = "index file", required = true)
 	private String indexFile;
 
-	@Option(name = "-o", aliases = { "--outputfile" }, usage = "output file")
-	private String outputFile;
-
-	@Option(name = "-s", aliases = { "--search" }, usage = "search")
+	@Option(name = "-k", aliases = { "--keyWords" }, usage = "search\ncomma separated list of keywords to search")
 	private String search;
 
-	@Option(name = "-r", aliases = { "--root" }, usage = "root")
+	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "path to ascii-file with source file names\none file/directory may be specified by line")
+	private String sourceFileList;
+
+	@Option(name = "-o", aliases = { "--outputfile" }, usage = "(html) output file\nthe output file will contain the search result with links to the pages in the pdf files that haven been searched")
+	private String outputFile;
+
+	@Option(name = "-r", aliases = { "--root" }, usage = "root\nif a  root is specified the paths in the sourceFileList and in the output will be considered relative to this root path")
 	private String root;
 
-	@Option(name = "-d", aliases = { "--debug" }, usage = "debug")
-	boolean debug = false;
+	@Option(name = "-s", aliases = { "--silent" }, usage = "stay silent\ndo not create any output on System.out if this switch is used")
+	boolean silent = false;
 
-	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion")
+	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion\nshow current version if this switch is used")
 	boolean showVersion = false;
+
+	@Option(name = "-w", aliases = { "--searchKeyWordList" }, usage = "file with search words")
+	private String searchWordList;
 
 	private static Pdfindexer indexer;
 	private CmdLineParser parser;
@@ -220,7 +226,8 @@ public class Pdfindexer {
 	 */
 	private void addToIndex(File file) throws Exception {
 		if (!file.canRead())
-			throw new IllegalArgumentException("addToIndex called with unreadabel file "+file.getPath());
+			throw new IllegalArgumentException(
+					"addToIndex called with unreadabel file " + file.getPath());
 		PDDocument pddDocument = PDDocument.load(file);
 		PDFTextStripper textStripper = new PDFTextStripper();
 		for (int pageNo = 1; pageNo <= pddDocument.getNumberOfPages(); pageNo++) {
@@ -286,7 +293,8 @@ public class Pdfindexer {
 					}
 				}
 			} else {
-				throw new IllegalArgumentException("getFilesToIndex failed for '"+pSource+"' it is neither a file nor a directory");
+				throw new IllegalArgumentException("getFilesToIndex failed for '"
+						+ pSource + "' it is neither a file nor a directory");
 			}
 		}
 		return result;
@@ -304,8 +312,8 @@ public class Pdfindexer {
 		if (sourceFileList != null) {
 			List<String> lines = FileUtils.readLines(new File(sourceFileList));
 			for (String aFilepath : lines) {
-				if (root!=null) {
-					aFilepath=root+aFilepath;
+				if (root != null) {
+					aFilepath = root + aFilepath;
 				}
 				result.addAll(getFilesToIndex(aFilepath));
 			}
@@ -321,7 +329,8 @@ public class Pdfindexer {
 	private void createIndex() throws Exception {
 		List<File> files = getFilesToIndex();
 		for (File file : files) {
-			System.out.println("adding "+file.getPath()+" to index");
+			if (!silent)
+				System.out.println("adding " + file.getPath() + " to index");
 			addToIndex(file);
 		}
 		close();
@@ -360,7 +369,7 @@ public class Pdfindexer {
 			query = qParser.parse(qString);
 			// query = QueryParser.parse(qString, idxField, new StandardAnalyzer());
 			if (debug)
-				System.out.println("query: '"+query.toString()+"'");
+				System.out.println("query: '" + query.toString() + "'");
 			// search
 			topDocs = searcher.search(query, limit);
 
@@ -405,6 +414,8 @@ public class Pdfindexer {
 	public PrintWriter getOutput() throws FileNotFoundException {
 		PrintWriter output = new PrintWriter(System.out);
 		if (this.outputFile != null) {
+			if (!silent)
+				System.out.println("creating output " + outputFile);
 			output = new PrintWriter(new File(outputFile));
 		}
 		return output;
@@ -437,6 +448,8 @@ public class Pdfindexer {
 	protected void work() throws Exception {
 		if (this.showVersion || this.debug)
 			showVersion();
+		if (this.showHelp)
+			showHelp();
 		if ((this.getSource() != null) || (this.getSourceFileList() != null))
 			createIndex();
 		PrintWriter output = getOutput();
@@ -484,6 +497,13 @@ public class Pdfindexer {
 		System.err.println("  usage: java com.bitplan.pdfindexer.Pdfindexer");
 		parser.printUsage(System.err);
 		exitCode = 1;
+	}
+
+	/**
+	 * show Help
+	 */
+	public void showHelp() {
+		usage("Help");
 	}
 
 	/**

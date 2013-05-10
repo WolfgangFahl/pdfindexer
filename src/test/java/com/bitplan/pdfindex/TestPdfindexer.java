@@ -39,7 +39,7 @@ public class TestPdfindexer {
 	 * @param htmlFilePath
 	 */
 	public void testPdfIndexer(String srcDir,String indexFolderPath, String searchPhrase,String htmlFilePath) {
-		String[] args={"--src",srcDir,"--idxfile",indexFolderPath,"--search",searchPhrase,"--outputfile",htmlFilePath,"--root","test/"};
+		String[] args={"--src",srcDir,"--idxfile",indexFolderPath,"--keyWords",searchPhrase,"--outputfile",htmlFilePath,"--root","test/"};
 		testPdfIndexer(args);
 		File indexFolder=new File(indexFolderPath);
 		assertTrue(indexFolder.isDirectory());			
@@ -55,7 +55,7 @@ public class TestPdfindexer {
 	 */
 	@Test
 	public void testIndexingWithFiles() {
-		String[] args={"--sourceFileList","test/pdffiles.lst","--idxfile","test/index2","--searchWordList","test/searchwords.txt","--outputfile","test/pdfindex.html","--root","test/"};
+		String[] args={"--sourceFileList","test/pdffiles.lst","--idxfile","test/index2","--searchKeyWordList","test/searchwords.txt","--outputfile","test/pdfindex.html","--root","test/"};
 		this.testPdfIndexer(args);
 	}
 	
