@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -51,7 +55,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the Pdfindexer tool
 	 */
-	public static final String VERSION = "0.0.1";
+	public static final String VERSION = "0.0.2";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
@@ -219,16 +223,81 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * add the given file to the index
+	 * allow different Document Sources
+	 * 
+	 * @author wf
+	 * 
+	 */
+	public class DocumentSource {
+		File file;
+		URL uri;
+
+		/**
+		 * create DocumentSource from pFile
+		 * 
+		 * @param pFile
+		 */
+		public DocumentSource(File pFile) {
+			file = pFile;
+		}
+
+		/**
+		 * create a DocumentSource from an URL
+		 * 
+		 * @param pUrl
+		 */
+		public DocumentSource(URL pUrl) {
+			uri = pUrl;
+		}
+
+		/**
+		 * get the Document
+		 * @return
+		 * @throws IOException
+		 */
+		public PDDocument getDocument() throws IOException {
+			PDDocument result = null;
+			if (file != null) {
+				if (!file.canRead())
+					throw new IllegalArgumentException(
+							"addToIndex called with unreadable source " + file.getPath());
+				result = PDDocument.load(file);
+			} else {
+				result=PDDocument.load(uri);
+			}
+			return result;
+		}
+		
+		/**
+		 * remove root part from path or uri
+		 * 
+		 * @param root
+		 * @return
+		 */
+		public String unRooted(String root) {
+			String result = null;
+			if (file!=null) {
+				result=file.getPath();
+			} else {
+				result=uri.toString();
+			}
+			if (root != null)
+				if (result.startsWith(root)) {
+					result = result.substring(root.length());
+				}
+			return result;
+		}
+	}
+
+	/**
+	 * add the given file or URI to the index
 	 * 
 	 * @param file
 	 * @throws Exception
 	 */
-	private void addToIndex(File file) throws Exception {
-		if (!file.canRead())
-			throw new IllegalArgumentException(
-					"addToIndex called with unreadabel file " + file.getPath());
-		PDDocument pddDocument = PDDocument.load(file);
+	private void addToIndex(DocumentSource source) throws Exception {
+
+		PDDocument pddDocument = source.getDocument();
 		PDFTextStripper textStripper = new PDFTextStripper();
 		for (int pageNo = 1; pageNo <= pddDocument.getNumberOfPages(); pageNo++) {
 			textStripper.setStartPage(pageNo);
@@ -242,7 +311,7 @@ public class Pdfindexer {
 					Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field("content", pageContent, Field.Store.NO,
 					Field.Index.ANALYZED));
-			doc.add(new Field("FILE", unRootedPath(file), Field.Store.YES,
+			doc.add(new Field("SOURCE", source.unRooted(this.root), Field.Store.YES,
 					Field.Index.ANALYZED));
 			documents.add(doc);
 			getIndexWriter().addDocument(doc);
@@ -250,20 +319,6 @@ public class Pdfindexer {
 		pddDocument.close();
 	}
 
-	/**
-	 * remove root part from path
-	 * 
-	 * @param file
-	 * @return
-	 */
-	private String unRootedPath(File file) {
-		String result = file.getPath();
-		if (this.root != null)
-			if (result.startsWith(root)) {
-				result = result.substring(root.length());
-			}
-		return result;
-	}
 
 	private void close() throws Exception {
 		getIndexWriter().optimize();
@@ -271,43 +326,49 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * get the files to index
+	 * get the sources to index
 	 * 
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	public List<File> getFilesToIndex(String pSource) {
-		List<File> result = new ArrayList<File>();
+	public List<DocumentSource> getFilesToIndex(String pSource) throws MalformedURLException {
+		List<DocumentSource> result = new ArrayList<DocumentSource>();
 		if (pSource != null) {
-			File sourceFile = new File(pSource);
-			if (sourceFile.isFile()) {
-				result.add(sourceFile);
-			} else if (sourceFile.isDirectory()) {
-				for (final File file : sourceFile.listFiles()) {
-					if (file.isDirectory()) {
-						result.addAll(getFilesToIndex(file.getAbsolutePath()));
-					}
-					if (file.isFile()) {
-						if (file.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
-							result.add(file);
+			UrlValidator urlValidator = new UrlValidator();
+			if (urlValidator.isValid(pSource)) {
+				result.add(new DocumentSource(new URL(pSource)));
+			} else {
+				File sourceFile = new File(pSource);
+				if (sourceFile.isFile()) {
+					result.add(new DocumentSource(sourceFile));
+				} else if (sourceFile.isDirectory()) {
+					for (final File file : sourceFile.listFiles()) {
+						if (file.isDirectory()) {
+							result.addAll(getFilesToIndex(file.getAbsolutePath()));
+						}
+						if (file.isFile()) {
+							if (file.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+								result.add(new DocumentSource(file));
+							}
 						}
 					}
+				} else {
+					throw new IllegalArgumentException("getFilesToIndex failed for '"
+							+ pSource + "' it is neither an URI, nor a file nor a directory");
 				}
-			} else {
-				throw new IllegalArgumentException("getFilesToIndex failed for '"
-						+ pSource + "' it is neither a file nor a directory");
 			}
 		}
 		return result;
 	}
 
 	/**
-	 * get the files to Index
+	 * get the sources to Index
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public List<File> getFilesToIndex() throws IOException {
-		List<File> result = new ArrayList<File>();
+	public List<DocumentSource> getSourcesToIndex() throws IOException {
+		List<DocumentSource> result = new ArrayList<DocumentSource>();
 		result.addAll(getFilesToIndex(source));
 		if (sourceFileList != null) {
 			List<String> lines = FileUtils.readLines(new File(sourceFileList));
@@ -327,11 +388,11 @@ public class Pdfindexer {
 	 * @throws Exception
 	 */
 	private void createIndex() throws Exception {
-		List<File> files = getFilesToIndex();
-		for (File file : files) {
+		List<DocumentSource> sources = getSourcesToIndex();
+		for (DocumentSource source : sources) {
 			if (!silent)
-				System.out.println("adding " + file.getPath() + " to index");
-			addToIndex(file);
+				System.out.println("adding " + source.unRooted(null) + " to index");
+			addToIndex(source);
 		}
 		close();
 	}
@@ -396,7 +457,7 @@ public class Pdfindexer {
 			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 				Document doc = searcher.doc(scoreDoc.doc);
 				String page = doc.get("pagenumber");
-				output.println("        <a href='" + doc.get("FILE") + "#page="
+				output.println("        <a href='" + doc.get("SOURCE") + "#page="
 						+ page.trim() + "'>" + page + "</a>");
 			}
 			output.println("      </li>");

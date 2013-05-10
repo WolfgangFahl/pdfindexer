@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>com.bitplan.pdfindex</name>
 	<description>pdf index creator</description>
 	<dependencies>
@@ -13,12 +13,18 @@
 			<artifactId>pdfbox-lucene</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-		<!--  commons io -->
+		<!-- commons io -->
 		<dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.1</version>
-    </dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<!--  commons validator -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 		<!-- args4j command line utility -->
 		<dependency>
 			<groupId>args4j</groupId>
@@ -75,6 +81,6 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>		
+		</plugins>
 	</build>
 </project>

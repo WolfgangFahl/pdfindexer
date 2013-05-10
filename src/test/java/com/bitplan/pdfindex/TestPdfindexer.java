@@ -59,4 +59,11 @@ public class TestPdfindexer {
 		this.testPdfIndexer(args);
 	}
 	
+	@Test
+	public void testURI() {
+		String docURI="http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
+		String htmlResult="test/cajun.html";
+		this.testPdfIndexer(docURI,"test/indices/cajun","Adobe IBM MS-DOS",htmlResult);
+	}
+	
 }
