@@ -7,7 +7,7 @@ Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
 mvn install
 
 ## Usage
-		java -jar target/com.bitplan.pdfindex-0.0.1.jar 
+		java -jar target/com.bitplan.pdfindex-0.0.2.jar 
 		
 		Pdfindexer Version: 0.0.2
 		 github: https://github.com/WolfgangFahl/pdfindexer.git
