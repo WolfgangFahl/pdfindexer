@@ -60,7 +60,7 @@ public class Pdfindexer {
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
 
-	@Option(name = "-f", aliases = { "--src" }, usage = "source directory/or file")
+	@Option(name = "-f", aliases = { "--src" }, usage = "source url, directory/or file")
 	private String source;
 
 	@Option(name = "-h", aliases = { "--help" }, usage = "help\nshow this usage")
@@ -72,7 +72,7 @@ public class Pdfindexer {
 	@Option(name = "-k", aliases = { "--keyWords" }, usage = "search\ncomma separated list of keywords to search")
 	private String search;
 
-	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "path to ascii-file with source file names\none file/directory may be specified by line")
+	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "path to ascii-file with source urls,directories or file names\none url/file/directory may be specified by line")
 	private String sourceFileList;
 
 	@Option(name = "-o", aliases = { "--outputfile" }, usage = "(html) output file\nthe output file will contain the search result with links to the pages in the pdf files that haven been searched")
