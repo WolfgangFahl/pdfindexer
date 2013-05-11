@@ -34,23 +34,23 @@ PDF text from the University of Notthingham about how to publish journals using 
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
 # Usage
-		java -jar target/com.bitplan.pdfindex-0.0.2.jar 
-		
 		Pdfindexer Version: 0.0.2
+		
 		 github: https://github.com/WolfgangFahl/pdfindexer.git
 		
 		  usage: java com.bitplan.pdfindexer.Pdfindexer
 		 -d (--debug)                 : debug
 		                                create additional debug output if this switch
 		                                is used
-		 -f (--src) VAL               : source directory/or file
+		 -f (--src) VAL               : source url, directory/or file
 		 -h (--help)                  : help
 		                                show this usage
 		 -i (--idxfile) VAL           : index file
 		 -k (--keyWords) VAL          : search
 		                                comma separated list of keywords to search
-		 -l (--sourceFileList) VAL    : path to ascii-file with source file names
-		                                one file/directory may be specified by line
+		 -l (--sourceFileList) VAL    : path to ascii-file with source urls,directories
+		                                or file names
+		                                one url/file/directory may be specified by line
 		 -o (--outputfile) VAL        : (html) output file
 		                                the output file will contain the search result
 		                                with links to the pages in the pdf files that
@@ -65,5 +65,3 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -v (--version)               : showVersion
 		                                show current version if this switch is used
 		 -w (--searchKeyWordList) VAL : file with search words
-
-
