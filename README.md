@@ -1,18 +1,26 @@
 pdfindexer
 ==========
 
+## Purpose
 Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
 
+## Project
+* Open Source hosted at https://github.com/WolfgangFahl/pdfindexer
+* License based on license of libraries used
+* Maven based Java project including JUnit 4 tests.
+
 # How to build
-mvn install
+* git clone https://github.com/WolfgangFahl/pdfindexer
+* cd pdfindexer
+* mvn install
 
 ## Examples
 see test folder for example input and results
 
 ### Lorem Ipsum
-* Source: https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf
+* Source: [Lorem Ipsum PDF](http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf "Click to open PDF")
 * Keywords: https://github.com/WolfgangFahl/pdfindexer/blob/master/test/searchwords.txt
-* Result:  http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html
+* Result:  [Lorem Ipsum PDF Index](http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open PDF")
 
     java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchWordList test/searchwords.txt --root test/ 
      resulting html file is in test/html/pdfindex.html
