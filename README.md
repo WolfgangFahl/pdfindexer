@@ -1,26 +1,26 @@
 pdfindexer
 ==========
 
-## Purpose
+### Purpose
 Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
 
-## Project
+### Project
 * Open Source hosted at https://github.com/WolfgangFahl/pdfindexer
-* License based on license of libraries used
+* License based on license of libraries used (see [pom.xml](https://github.com/WolfgangFahl/pdfindexer/blob/master/pom.xml))
 * Maven based Java project including JUnit 4 tests.
 
-# How to build
+### How to build
 * git clone https://github.com/WolfgangFahl/pdfindexer
 * cd pdfindexer
 * mvn install
 
-## Examples
+# Examples
 see test folder for example input and results
 
 ### Lorem Ipsum
-* Source: [Lorem Ipsum PDF](http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf "Click to open PDF")
+* Source: [Lorem Ipsum PDF](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf "Click to open PDF source")
 * Keywords: https://github.com/WolfgangFahl/pdfindexer/blob/master/test/searchwords.txt
-* Result:  [Lorem Ipsum PDF Index](http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open PDF")
+* Result:  [Lorem Ipsum PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open html source")
 
     java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchWordList test/searchwords.txt --root test/ 
      resulting html file is in test/html/pdfindex.html
@@ -28,12 +28,12 @@ see test folder for example input and results
 resulting html file is in test/html/pdfindex.html
 
 ### Cajun project 
-(PDF text from the University of Notthingham about how to publish using the brand new Adobe technology)
+PDF text from the University of Notthingham about how to publish journals using the brand new Adobe technology (written 1993)
 * Source: http://eprints.nottingham.ac.uk/249/1/cajun.pdf
 * Keywords: Adobe IBM MS-DOS
-* Result: [Cajun PDF Index](http://htmlpreview.github.io/?https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open PDF") 
+* Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
-## Usage
+# Usage
 		java -jar target/com.bitplan.pdfindex-0.0.2.jar 
 		
 		Pdfindexer Version: 0.0.2
@@ -67,9 +67,3 @@ resulting html file is in test/html/pdfindex.html
 		 -w (--searchKeyWordList) VAL : file with search words
 
 
-## Author
-Author: Wolfgang Fahl / BITPlan GmbH
-see http://www.bitplan.com
-
-## License
-License as per the parts used (see pom.xml)
