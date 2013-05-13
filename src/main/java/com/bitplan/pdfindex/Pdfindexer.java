@@ -14,10 +14,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +46,8 @@ import org.apache.pdfbox.util.PDFTextStripper;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+
+import com.bitplan.rest.freemarker.FreeMarkerConfiguration;
 
 /**
  * indexer for PDF files inspired by
@@ -74,15 +79,27 @@ public class Pdfindexer {
 
 	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "path to ascii-file with source urls,directories or file names\none url/file/directory may be specified by line")
 	private String sourceFileList;
+	
+	@Option(name = "-m", aliases = { "--maxHits" }, usage = "maximum number of hits per keyword")
+	private int maxHits=1000;
 
 	@Option(name = "-o", aliases = { "--outputfile" }, usage = "(html) output file\nthe output file will contain the search result with links to the pages in the pdf files that haven been searched")
 	private String outputFile;
+	
+	@Option(name = "-p", aliases = { "--templatePath" }, usage = "path to Freemarker template file(s) to be used to format the output")
+	private String templatePath;
 
 	@Option(name = "-r", aliases = { "--root" }, usage = "root\nif a  root is specified the paths in the sourceFileList and in the output will be considered relative to this root path")
 	private String root;
 
 	@Option(name = "-s", aliases = { "--silent" }, usage = "stay silent\ndo not create any output on System.out if this switch is used")
 	boolean silent = false;
+	
+	@Option(name = "-t", aliases = { "--templateName" }, usage = "name of Freemarker template to be used")
+	private String templateName="defaultindex.ftl";
+	
+	@Option(name = "--title",  usage = "title to be used in html result")
+	private String title="PDF Index";
 
 	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion\nshow current version if this switch is used")
 	boolean showVersion = false;
@@ -97,6 +114,34 @@ public class Pdfindexer {
 	public List<Document> documents = new ArrayList<Document>();
 	protected IndexWriter writer;
 	protected IndexSearcher searcher = null;
+
+	/**
+	 * @return the templateName
+	 */
+	public String getTemplateName() {
+		return templateName;
+	}
+
+	/**
+	 * @param templateName the templateName to set
+	 */
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
+	}
+
+	/**
+	 * @return the templatePath
+	 */
+	public String getTemplatePath() {
+		return templatePath;
+	}
+
+	/**
+	 * @param templatePath the templatePath to set
+	 */
+	public void setTemplatePath(String templatePath) {
+		this.templatePath = templatePath;
+	}
 
 	/**
 	 * @return the root
@@ -181,6 +226,20 @@ public class Pdfindexer {
 	}
 
 	/**
+	 * @return the maxHits
+	 */
+	public int getMaxHits() {
+		return maxHits;
+	}
+
+	/**
+	 * @param maxHits the maxHits to set
+	 */
+	public void setMaxHits(int maxHits) {
+		this.maxHits = maxHits;
+	}
+
+	/**
 	 * @param sourceFileList
 	 *          the sourceFileList to set
 	 */
@@ -201,6 +260,20 @@ public class Pdfindexer {
 	 */
 	public void setSearchWordList(String searchWordList) {
 		this.searchWordList = searchWordList;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	/**
@@ -446,27 +519,6 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * display the index
-	 * 
-	 * @param topDocs
-	 * @param output
-	 */
-	private void displayIndex(TopDocs topDocs, PrintWriter output, String word) {
-		try {
-			output.println("      <li>" + word + ":" + topDocs.totalHits);
-			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-				Document doc = searcher.doc(scoreDoc.doc);
-				String page = doc.get("pagenumber");
-				output.println("        <a href='" + doc.get("SOURCE") + "#page="
-						+ page.trim() + "'>" + page + "</a>");
-			}
-			output.println("      </li>");
-		} catch (IOException ex) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-		}
-	}
-
-	/**
 	 * get Output
 	 * 
 	 * @return
@@ -500,6 +552,44 @@ public class Pdfindexer {
 		}
 		return result;
 	}
+	
+	/**
+	 * display the index
+	 * 
+	 * @param topDocs
+	 * @param output
+	 */
+	private void displayIndex(TopDocs topDocs, PrintWriter output, String word) {
+		try {
+			output.println("      <li>" + word + ":" + topDocs.totalHits);
+			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+				Document doc = searcher.doc(scoreDoc.doc);
+				String page = doc.get("pagenumber");
+				output.println("        <a href='" + doc.get("SOURCE") + "#page="
+						+ page.trim() + "'>" + page + "</a>");
+			}
+			output.println("      </li>");
+		} catch (IOException ex) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	/**
+	 * get the Index as html
+	 * @param searchResults
+	 * @return
+	 * @throws Exception
+	 */
+	public String getIndexAsHtml(SortedMap<String, SearchResult> searchResults) throws Exception {
+		Map<String,Object> rootMap=new HashMap<String,Object>();
+		rootMap.put("searchResults", searchResults);
+		rootMap.put("title", this.getTitle());
+		if (this.getTemplatePath()!=null)
+			FreeMarkerConfiguration.addTemplatePath(this.getTemplatePath());
+		FreeMarkerConfiguration.addTemplateClass(FreeMarkerConfiguration.class, "/templates");
+		String html=FreeMarkerConfiguration.doProcessTemplate(this.getTemplateName(), rootMap);
+		return html;
+	}
 
 	/**
 	 * create and search the given Index
@@ -514,13 +604,14 @@ public class Pdfindexer {
 		if ((this.getSource() != null) || (this.getSourceFileList() != null))
 			createIndex();
 		PrintWriter output = getOutput();
-		output.println("<html>\n  <body>\n    <ul>");
 		List<String> words = getSearchWords();
+		SortedMap<String,SearchResult> searchResults=new TreeMap<String,SearchResult>();
 		for (String word : words) {
-			TopDocs topDocs = searchIndex(word, "content", 1000);
-			displayIndex(topDocs, output, word);
+			TopDocs topDocs = searchIndex(word, "content", getMaxHits());
+			searchResults.put(word, new SearchResult(searcher,topDocs));
 		}
-		output.println("    </ul>\n  </body>\n</html>\n");
+		String html=this.getIndexAsHtml(searchResults);
+		output.print(html);
 		output.flush();
 	}
 
