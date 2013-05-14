@@ -15,7 +15,7 @@ Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
 * mvn install
 
 # Examples
-see test folder for example input and results
+see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) for example input and results
 
 ### Lorem Ipsum
 * Source: [Lorem Ipsum PDF](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf "Click to open PDF source")
