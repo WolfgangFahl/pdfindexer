@@ -11,6 +11,10 @@ package com.bitplan.pdfindex;
 
 import static org.junit.Assert.*;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import com.bitplan.pdfindex.Pdfindexer;
 
@@ -42,12 +46,14 @@ public class TestPdfindexer {
 		String[] args={"--src",srcDir,"--idxfile",indexFolderPath,"--keyWords",searchPhrase,"--outputfile",htmlFilePath,"--root","test/"};
 		testPdfIndexer(args);
 		File indexFolder=new File(indexFolderPath);
-		assertTrue(indexFolder.isDirectory());			
+		assertTrue(indexFolder.isDirectory());		
+		File htmlFile=new File(htmlFilePath);
+		assertTrue(htmlFile.isFile());
 	}
 
 	@Test
 	public void testIndexing() {
-		this.testPdfIndexer("test/pdfsource1","test/index1","Lorem ipsum","test/index.html");
+		this.testPdfIndexer("test/pdfsource1","test/indices/index1","Lorem ipsum","test/index.html");
 	}
 
 	/**
@@ -55,15 +61,30 @@ public class TestPdfindexer {
 	 */
 	@Test
 	public void testIndexingWithFiles() {
-		String[] args={"--sourceFileList","test/pdffiles.lst","--idxfile","test/index2","--searchKeyWordList","test/searchwords.txt","--outputfile","test/pdfindex.html","--root","test/"};
+		String[] args={"--sourceFileList","test/pdffiles.lst","--idxfile","test/indices/pdffiles","--searchKeyWordList","test/searchwords.txt","--outputfile","test/pdfindex.html","--root","test/"};
 		this.testPdfIndexer(args);
 	}
 	
 	@Test
+	/**
+	 * test using an URI
+	 */
 	public void testURI() {
 		String docURI="http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
 		String htmlResult="test/cajun.html";
 		this.testPdfIndexer(docURI,"test/indices/cajun","Adobe IBM MS-DOS",htmlResult);
+	}
+	
+	@Test
+	public void testSorting() throws IOException {
+		String htmlOutputFileName="test/cajunfiles.html";
+		String[] args={"--sourceFileList","test/cajunfiles.lst","--idxfile","test/indices/cajunfiles","--keyWords","Adobe IBM MS-DOS","--outputfile",htmlOutputFileName};
+		this.testPdfIndexer(args);		
+		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
+		assertEquals(44,lines.size());
+		String line=lines.get(13);
+		assertTrue(line.contains("cajun.pdf#page=1"));
+		
 	}
 	
 }

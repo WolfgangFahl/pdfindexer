@@ -12,9 +12,18 @@
  		<#list searchResults?keys as key>
  			<#assign searchResult=searchResults[key]>
  			<li>${key}:${searchResult.getTotalHits()}</li>
+ 		  <#assign prevsource="">			
  			<#list searchResult.getDocs() as doc>
  			  <#assign page=doc.get("pagenumber")>
- 				<a href='${doc.get("SOURCE")}'#page=${page}'>${page}</a>
+ 			  <#assign source=doc.get("SOURCE")>
+ 			  <#if prevsource!=source>
+ 				  <#if (prevsource!="")>
+ 				  <br/>
+ 				  </#if>
+   				<a href='${source}' title='${source}'>${source}</a><br/>
+ 				</#if>  
+ 				<a href='${source}#page=${page}' title='${source}#page=${page}'>${page}</a>
+ 			  <#assign prevsource=source>
       </#list>	
     </#list>
  		</ul>

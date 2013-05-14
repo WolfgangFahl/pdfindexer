@@ -34,34 +34,39 @@ PDF text from the University of Notthingham about how to publish journals using 
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
 # Usage
-		Pdfindexer Version: 0.0.2
-		
-		 github: https://github.com/WolfgangFahl/pdfindexer.git
-		
-		  usage: java com.bitplan.pdfindexer.Pdfindexer
-		 -d (--debug)                 : debug
-		                                create additional debug output if this switch
-		                                is used
-		 -f (--src) VAL               : source url, directory/or file
-		 -h (--help)                  : help
-		                                show this usage
-		 -i (--idxfile) VAL           : index file
-		 -k (--keyWords) VAL          : search
-		                                comma separated list of keywords to search
-		 -l (--sourceFileList) VAL    : path to ascii-file with source urls,directories
-		                                or file names
-		                                one url/file/directory may be specified by line
-		 -o (--outputfile) VAL        : (html) output file
-		                                the output file will contain the search result
-		                                with links to the pages in the pdf files that
-		                                haven been searched
-		 -r (--root) VAL              : root
-		                                if a  root is specified the paths in the
-		                                sourceFileList and in the output will be
-		                                considered relative to this root path
-		 -s (--silent)                : stay silent
-		                                do not create any output on System.out if this
-		                                switch is used
-		 -v (--version)               : showVersion
-		                                show current version if this switch is used
-		 -w (--searchKeyWordList) VAL : file with search words
+Pdfindexer Version: 0.0.3
+
+ github: https://github.com/WolfgangFahl/pdfindexer.git
+
+  usage: java com.bitplan.pdfindexer.Pdfindexer
+ --title VAL                  : title to be used in html result
+ -d (--debug)                 : debug
+                                create additional debug output if this switch
+                                is used
+ -f (--src) VAL               : source url, directory/or file
+ -h (--help)                  : help
+                                show this usage
+ -i (--idxfile) VAL           : index file
+ -k (--keyWords) VAL          : search
+                                comma separated list of keywords to search
+ -l (--sourceFileList) VAL    : path to ascii-file with source urls,directories
+                                or file names
+                                one url/file/directory may be specified by line
+ -m (--maxHits) N             : maximum number of hits per keyword
+ -o (--outputfile) VAL        : (html) output file
+                                the output file will contain the search result
+                                with links to the pages in the pdf files that
+                                haven been searched
+ -p (--templatePath) VAL      : path to Freemarker template file(s) to be used
+                                to format the output
+ -r (--root) VAL              : root
+                                if a  root is specified the paths in the
+                                sourceFileList and in the output will be
+                                considered relative to this root path
+ -s (--silent)                : stay silent
+                                do not create any output on System.out if this
+                                switch is used
+ -t (--templateName) VAL      : name of Freemarker template to be used
+ -v (--version)               : showVersion
+                                show current version if this switch is used
+ -w (--searchKeyWordList) VAL : file with search words
