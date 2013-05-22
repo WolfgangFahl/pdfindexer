@@ -36,7 +36,6 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -543,7 +542,7 @@ public class Pdfindexer {
 	public List<String> getSearchWords() throws Exception {
 		List<String> result = new ArrayList<String>();
 		if (this.search != null) {
-			for (String word : search.split(" ")) {
+			for (String word : search.split(",")) {
 				result.add(word);
 			}
 		}
@@ -551,27 +550,6 @@ public class Pdfindexer {
 			result.addAll(FileUtils.readLines(new File(this.searchWordList)));
 		}
 		return result;
-	}
-	
-	/**
-	 * display the index
-	 * 
-	 * @param topDocs
-	 * @param output
-	 */
-	private void displayIndex(TopDocs topDocs, PrintWriter output, String word) {
-		try {
-			output.println("      <li>" + word + ":" + topDocs.totalHits);
-			for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-				Document doc = searcher.doc(scoreDoc.doc);
-				String page = doc.get("pagenumber");
-				output.println("        <a href='" + doc.get("SOURCE") + "#page="
-						+ page.trim() + "'>" + page + "</a>");
-			}
-			output.println("      </li>");
-		} catch (IOException ex) {
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-		}
 	}
 
 	/**
