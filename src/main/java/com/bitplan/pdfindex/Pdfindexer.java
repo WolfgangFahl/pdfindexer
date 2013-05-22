@@ -64,6 +64,9 @@ public class Pdfindexer {
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
 
+	@Option(name = "-e", aliases = { "--autoescape" }, usage = "autoescape blanks\nset to off if you'd like to use lucene query syntax")
+	private boolean autoescape=true;
+
 	@Option(name = "-f", aliases = { "--src" }, usage = "source url, directory/or file")
 	private String source;
 
@@ -215,6 +218,20 @@ public class Pdfindexer {
 	 */
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	/**
+	 * @return the autoescape
+	 */
+	public boolean isAutoescape() {
+		return autoescape;
+	}
+
+	/**
+	 * @param autoescape the autoescape to set
+	 */
+	public void setAutoescape(boolean autoescape) {
+		this.autoescape = autoescape;
 	}
 
 	/**
@@ -499,6 +516,8 @@ public class Pdfindexer {
 			searcher = new IndexSearcher(fsDir);
 			// parse query
 			qParser = new QueryParser(idxField, new StandardAnalyzer());
+			if (this.autoescape)
+				qString=qString.replace(" ", "\\ ");
 			query = qParser.parse(qString);
 			// query = QueryParser.parse(qString, idxField, new StandardAnalyzer());
 			if (debug)

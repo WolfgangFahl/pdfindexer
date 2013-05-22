@@ -43,6 +43,9 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -d (--debug)                 : debug
 		                                create additional debug output if this switch
 		                                is used
+     -e (--autoescape)            : autoescape blanks
+			                              set to off if you'd like to use lucene query
+			                              syntax		                                
 		 -f (--src) VAL               : source url, directory/or file
 		 -h (--help)                  : help
 		                                show this usage

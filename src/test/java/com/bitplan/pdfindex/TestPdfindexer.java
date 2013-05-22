@@ -85,7 +85,7 @@ public class TestPdfindexer {
 		String docURI = "http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
 		String htmlOutputFileName = "test/cajun.html";
 		this.testPdfIndexer(docURI, "test/indices/cajun",
-				"Adobe,IBM,MS-DOS,Adobe\\ Illustrator", htmlOutputFileName);
+				"Adobe,IBM,MS-DOS,Adobe Illustrator", htmlOutputFileName);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
 		if (debug) {
 			int lineNo = 1;
