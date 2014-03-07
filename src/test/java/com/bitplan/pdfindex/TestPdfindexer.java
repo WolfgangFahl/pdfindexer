@@ -76,6 +76,24 @@ public class TestPdfindexer {
 				"--outputfile", "test/pdfindex.html", "--root", "test/" };
 		this.testPdfIndexer(args);
 	}
+	
+	/**
+	 * test extracting text
+	 * @throws IOException 
+	 */
+	@Test
+	public void testExtracting() throws IOException {
+		File txtFile=new File("test/pdfsource1/LoremIpsum.txt");
+		if (txtFile.exists())
+			txtFile.delete();
+		String[] args = { "--sourceFileList", "test/pdffiles.lst", "--idxfile",
+				"test/indices/pdffiles", "--searchKeyWordList", "test/searchwords.txt",
+				"--outputfile", "test/pdfindex.html", "--root", "test/", "-x" };
+		this.testPdfIndexer(args);
+		assertTrue(txtFile.exists());
+		String txt=FileUtils.readFileToString(txtFile,"UTF-8");
+		assertTrue(txt.contains("Lorem"));
+	}
 
 	@Test
 	/**

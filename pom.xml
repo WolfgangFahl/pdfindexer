@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>com.bitplan.pdfindex</name>
 	<description>pdf index creator</description>
 	<dependencies>

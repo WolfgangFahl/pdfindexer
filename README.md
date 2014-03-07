@@ -71,4 +71,9 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -t (--templateName) VAL      : name of Freemarker template to be used
 		 -v (--version)               : showVersion
 		                                show current version if this switch is used
+	   -x (--extract)               : extract text
+                                    extract text content to files	                                
 		 -w (--searchKeyWordList) VAL : file with search words
+		 
+## Version history
+0.0.4: adds text extract feature		 

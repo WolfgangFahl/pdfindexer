@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -59,7 +59,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the Pdfindexer tool
 	 */
-	public static final String VERSION = "0.0.3";
+	public static final String VERSION = "0.0.4";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
@@ -105,6 +105,9 @@ public class Pdfindexer {
 
 	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion\nshow current version if this switch is used")
 	boolean showVersion = false;
+
+	@Option(name = "-x", aliases = { "--extract" }, usage = "extract text\nextract text content to files")
+	boolean extract = false;
 
 	@Option(name = "-w", aliases = { "--searchKeyWordList" }, usage = "file with search words")
 	private String searchWordList;
@@ -473,10 +476,10 @@ public class Pdfindexer {
 
 	/**
 	 * create an index
-	 * 
+	 * @return the list of document sources
 	 * @throws Exception
 	 */
-	private void createIndex() throws Exception {
+	private List<DocumentSource> createIndex() throws Exception {
 		List<DocumentSource> sources = getSourcesToIndex();
 		for (DocumentSource source : sources) {
 			if (!silent)
@@ -484,6 +487,7 @@ public class Pdfindexer {
 			addToIndex(source);
 		}
 		close();
+		return sources;
 	}
 
 	/**
@@ -598,8 +602,25 @@ public class Pdfindexer {
 			showVersion();
 		if (this.showHelp)
 			showHelp();
-		if ((this.getSource() != null) || (this.getSourceFileList() != null))
-			createIndex();
+		List<DocumentSource> sources=null;
+		if ((this.getSource() != null) || (this.getSourceFileList() != null)) {
+			sources = createIndex();
+			if (this.extract) {
+				for (DocumentSource source:sources) {
+					PDDocument pdfdoc = source.getDocument();
+					if (source.file!=null) {
+						PDFTextStripper stripper=new PDFTextStripper();
+						String path=source.file.getPath();
+						String textpath=FilenameUtils.getPath(path)+FilenameUtils.getBaseName(path)+".txt";
+						System.out.println("extracting text to "+textpath);
+						PrintWriter textWriter=new PrintWriter(new File(textpath));
+						stripper.writeText(pdfdoc, textWriter);
+						textWriter.close();
+					}
+				}
+			}
+		}
+		// create the main html output
 		PrintWriter output = getOutput();
 		List<String> words = getSearchWords();
 		SortedMap<String,SearchResult> searchResults=new TreeMap<String,SearchResult>();
