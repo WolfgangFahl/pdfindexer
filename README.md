@@ -23,8 +23,7 @@ see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) f
 * Result:  [Lorem Ipsum PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open html source")
 
     java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchWordList test/searchwords.txt --root test/ 
-     resulting html file is in test/html/pdfindex.html
-
+     
 resulting html file is in test/html/pdfindex.html
 
 ### Cajun project 
