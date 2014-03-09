@@ -65,7 +65,7 @@ public class Pdfindexer {
 	boolean debug = false;
 
 	@Option(name = "-e", aliases = { "--autoescape" }, usage = "autoescape blanks\nset to off if you'd like to use lucene query syntax")
-	private boolean autoescape=true;
+	private boolean autoescape = true;
 
 	@Option(name = "-f", aliases = { "--src" }, usage = "source url, directory/or file")
 	private String source;
@@ -81,13 +81,13 @@ public class Pdfindexer {
 
 	@Option(name = "-l", aliases = { "--sourceFileList" }, usage = "path to ascii-file with source urls,directories or file names\none url/file/directory may be specified by line")
 	private String sourceFileList;
-	
+
 	@Option(name = "-m", aliases = { "--maxHits" }, usage = "maximum number of hits per keyword")
-	private int maxHits=1000;
+	private int maxHits = 1000;
 
 	@Option(name = "-o", aliases = { "--outputfile" }, usage = "(html) output file\nthe output file will contain the search result with links to the pages in the pdf files that haven been searched")
 	private String outputFile;
-	
+
 	@Option(name = "-p", aliases = { "--templatePath" }, usage = "path to Freemarker template file(s) to be used to format the output")
 	private String templatePath;
 
@@ -96,12 +96,12 @@ public class Pdfindexer {
 
 	@Option(name = "-s", aliases = { "--silent" }, usage = "stay silent\ndo not create any output on System.out if this switch is used")
 	boolean silent = false;
-	
+
 	@Option(name = "-t", aliases = { "--templateName" }, usage = "name of Freemarker template to be used")
-	private String templateName="defaultindex.ftl";
-	
-	@Option(name = "--title",  usage = "title to be used in html result")
-	private String title="PDF Index";
+	private String templateName = "defaultindex.ftl";
+
+	@Option(name = "--title", usage = "title to be used in html result")
+	private String title = "PDF Index";
 
 	@Option(name = "-v", aliases = { "--version" }, usage = "showVersion\nshow current version if this switch is used")
 	boolean showVersion = false;
@@ -128,7 +128,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param templateName the templateName to set
+	 * @param templateName
+	 *            the templateName to set
 	 */
 	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
@@ -142,7 +143,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param templatePath the templatePath to set
+	 * @param templatePath
+	 *            the templatePath to set
 	 */
 	public void setTemplatePath(String templatePath) {
 		this.templatePath = templatePath;
@@ -157,7 +159,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param root
-	 *          the root to set
+	 *            the root to set
 	 */
 	public void setRoot(String root) {
 		this.root = root;
@@ -172,7 +174,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param search
-	 *          the search to set
+	 *            the search to set
 	 */
 	public void setSearch(String search) {
 		this.search = search;
@@ -187,7 +189,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param outputFile
-	 *          the outputFile to set
+	 *            the outputFile to set
 	 */
 	public void setOutputFile(String outputFile) {
 		this.outputFile = outputFile;
@@ -202,7 +204,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param indexFile
-	 *          the indexFile to set
+	 *            the indexFile to set
 	 */
 	public void setIndexFile(String indexFile) {
 		this.indexFile = indexFile;
@@ -217,7 +219,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param sourceDirectory
-	 *          the sourceDirectory to set
+	 *            the sourceDirectory to set
 	 */
 	public void setSource(String source) {
 		this.source = source;
@@ -231,7 +233,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param autoescape the autoescape to set
+	 * @param autoescape
+	 *            the autoescape to set
 	 */
 	public void setAutoescape(boolean autoescape) {
 		this.autoescape = autoescape;
@@ -252,7 +255,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param maxHits the maxHits to set
+	 * @param maxHits
+	 *            the maxHits to set
 	 */
 	public void setMaxHits(int maxHits) {
 		this.maxHits = maxHits;
@@ -260,7 +264,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param sourceFileList
-	 *          the sourceFileList to set
+	 *            the sourceFileList to set
 	 */
 	public void setSourceFileList(String sourceFileList) {
 		this.sourceFileList = sourceFileList;
@@ -275,7 +279,7 @@ public class Pdfindexer {
 
 	/**
 	 * @param searchWordList
-	 *          the searchWordList to set
+	 *            the searchWordList to set
 	 */
 	public void setSearchWordList(String searchWordList) {
 		this.searchWordList = searchWordList;
@@ -289,7 +293,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -344,6 +349,7 @@ public class Pdfindexer {
 
 		/**
 		 * get the Document
+		 * 
 		 * @return
 		 * @throws IOException
 		 */
@@ -352,14 +358,15 @@ public class Pdfindexer {
 			if (file != null) {
 				if (!file.canRead())
 					throw new IllegalArgumentException(
-							"addToIndex called with unreadable source " + file.getPath());
+							"addToIndex called with unreadable source "
+									+ file.getPath());
 				result = PDDocument.load(file);
 			} else {
-				result=PDDocument.load(uri);
+				result = PDDocument.load(uri);
 			}
 			return result;
 		}
-		
+
 		/**
 		 * remove root part from path or uri
 		 * 
@@ -368,10 +375,10 @@ public class Pdfindexer {
 		 */
 		public String unRooted(String root) {
 			String result = null;
-			if (file!=null) {
-				result=file.getPath();
+			if (file != null) {
+				result = file.getPath();
 			} else {
-				result=uri.toString();
+				result = uri.toString();
 			}
 			if (root != null)
 				if (result.startsWith(root)) {
@@ -403,14 +410,13 @@ public class Pdfindexer {
 					Field.Store.YES, Field.Index.ANALYZED));
 			doc.add(new Field("content", pageContent, Field.Store.NO,
 					Field.Index.ANALYZED));
-			doc.add(new Field("SOURCE", source.unRooted(this.root), Field.Store.YES,
-					Field.Index.ANALYZED));
+			doc.add(new Field("SOURCE", source.unRooted(this.root),
+					Field.Store.YES, Field.Index.ANALYZED));
 			documents.add(doc);
 			getIndexWriter().addDocument(doc);
 		}
 		pddDocument.close();
 	}
-
 
 	private void close() throws Exception {
 		getIndexWriter().optimize();
@@ -421,9 +427,10 @@ public class Pdfindexer {
 	 * get the sources to index
 	 * 
 	 * @return
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 */
-	public List<DocumentSource> getFilesToIndex(String pSource) throws MalformedURLException {
+	public List<DocumentSource> getFilesToIndex(String pSource)
+			throws MalformedURLException {
 		List<DocumentSource> result = new ArrayList<DocumentSource>();
 		if (pSource != null) {
 			UrlValidator urlValidator = new UrlValidator();
@@ -436,17 +443,21 @@ public class Pdfindexer {
 				} else if (sourceFile.isDirectory()) {
 					for (final File file : sourceFile.listFiles()) {
 						if (file.isDirectory()) {
-							result.addAll(getFilesToIndex(file.getAbsolutePath()));
+							result.addAll(getFilesToIndex(file
+									.getAbsolutePath()));
 						}
 						if (file.isFile()) {
-							if (file.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+							if (file.getAbsolutePath().toLowerCase()
+									.endsWith(".pdf")) {
 								result.add(new DocumentSource(file));
 							}
 						}
 					}
 				} else {
-					throw new IllegalArgumentException("getFilesToIndex failed for '"
-							+ pSource + "' it is neither an URI, nor a file nor a directory");
+					throw new IllegalArgumentException(
+							"getFilesToIndex failed for '"
+									+ pSource
+									+ "' it is neither an URI, nor a file nor a directory");
 				}
 			}
 		}
@@ -476,6 +487,7 @@ public class Pdfindexer {
 
 	/**
 	 * create an index
+	 * 
 	 * @return the list of document sources
 	 * @throws Exception
 	 */
@@ -483,7 +495,8 @@ public class Pdfindexer {
 		List<DocumentSource> sources = getSourcesToIndex();
 		for (DocumentSource source : sources) {
 			if (!silent)
-				System.out.println("adding " + source.unRooted(null) + " to index");
+				System.out.println("adding " + source.unRooted(null)
+						+ " to index");
 			addToIndex(source);
 		}
 		close();
@@ -491,8 +504,8 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * http://lucene.472066.n3.nabble.com/search-trough-single-pdf-document-return
-	 * -page-number-td598698.html
+	 * http://lucene.472066.n3.nabble.com/search-trough-single-pdf-document-
+	 * return -page-number-td598698.html
 	 * http://tarikguelzim.wordpress.com/2008/09/13/creating
 	 * -a-search-engine-to-parse-index-and-search-pdf-file-content/ search the
 	 * 
@@ -511,8 +524,8 @@ public class Pdfindexer {
 		try {
 			// query index
 			if (debug) {
-				System.out.println("Searching for " + qString + " in " + indexFile
-						+ " — field: " + idxField);
+				System.out.println("Searching for " + qString + " in "
+						+ indexFile + " — field: " + idxField);
 			}
 
 			// create index searcher
@@ -521,9 +534,10 @@ public class Pdfindexer {
 			// parse query
 			qParser = new QueryParser(idxField, new StandardAnalyzer());
 			if (this.autoescape)
-				qString=qString.replace(" ", "\\ ");
+				qString = qString.replace(" ", "\\ ");
 			query = qParser.parse(qString);
-			// query = QueryParser.parse(qString, idxField, new StandardAnalyzer());
+			// query = QueryParser.parse(qString, idxField, new
+			// StandardAnalyzer());
 			if (debug)
 				System.out.println("query: '" + query.toString() + "'");
 			// search
@@ -531,11 +545,13 @@ public class Pdfindexer {
 
 		} catch (IOException ex) {
 			System.err.println("Index file" + indexFile + " doesn’t exist");
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null,
+					ex);
 			System.exit(1);
 		} catch (ParseException ex) {
 			System.err.println("Error while parsing the index.");
-			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null,
+					ex);
 		}
 		return topDocs;
 	}
@@ -577,43 +593,46 @@ public class Pdfindexer {
 
 	/**
 	 * get the Index as html
+	 * 
 	 * @param searchResults
 	 * @return
 	 * @throws Exception
 	 */
-	public String getIndexAsHtml(SortedMap<String, SearchResult> searchResults) throws Exception {
-		Map<String,Object> rootMap=new HashMap<String,Object>();
+	public String getIndexAsHtml(SortedMap<String, SearchResult> searchResults)
+			throws Exception {
+		Map<String, Object> rootMap = new HashMap<String, Object>();
 		rootMap.put("searchResults", searchResults);
 		rootMap.put("title", this.getTitle());
-		if (this.getTemplatePath()!=null)
+		if (this.getTemplatePath() != null)
 			FreeMarkerConfiguration.addTemplatePath(this.getTemplatePath());
-		FreeMarkerConfiguration.addTemplateClass(FreeMarkerConfiguration.class, "/templates");
-		String html=FreeMarkerConfiguration.doProcessTemplate(this.getTemplateName(), rootMap);
+		FreeMarkerConfiguration.addTemplateClass(FreeMarkerConfiguration.class,
+				"/templates");
+		String html = FreeMarkerConfiguration.doProcessTemplate(
+				this.getTemplateName(), rootMap);
 		return html;
 	}
 
 	/**
-	 * create and search the given Index
-	 * 
+	 * create the index
 	 * @throws Exception
 	 */
-	protected void work() throws Exception {
-		if (this.showVersion || this.debug)
-			showVersion();
-		if (this.showHelp)
-			showHelp();
-		List<DocumentSource> sources=null;
-		if ((this.getSource() != null) || (this.getSourceFileList() != null)) {
+	protected void doIndex() throws Exception {
+		List<DocumentSource> sources = null;
+		if ((this.getSource() != null)
+				|| (this.getSourceFileList() != null)) {
 			sources = createIndex();
 			if (this.extract) {
-				for (DocumentSource source:sources) {
+				for (DocumentSource source : sources) {
 					PDDocument pdfdoc = source.getDocument();
-					if (source.file!=null) {
-						PDFTextStripper stripper=new PDFTextStripper();
-						String path=source.file.getPath();
-						String textpath=FilenameUtils.getPath(path)+FilenameUtils.getBaseName(path)+".txt";
-						System.out.println("extracting text to "+textpath);
-						PrintWriter textWriter=new PrintWriter(new File(textpath));
+					if (source.file != null) {
+						PDFTextStripper stripper = new PDFTextStripper();
+						String path = source.file.getPath();
+						String textpath = FilenameUtils.getPath(path)
+								+ FilenameUtils.getBaseName(path) + ".txt";
+						System.out
+								.println("extracting text to " + textpath);
+						PrintWriter textWriter = new PrintWriter(new File(
+								textpath));
 						stripper.writeText(pdfdoc, textWriter);
 						textWriter.close();
 					}
@@ -623,14 +642,29 @@ public class Pdfindexer {
 		// create the main html output
 		PrintWriter output = getOutput();
 		List<String> words = getSearchWords();
-		SortedMap<String,SearchResult> searchResults=new TreeMap<String,SearchResult>();
+		SortedMap<String, SearchResult> searchResults = new TreeMap<String, SearchResult>();
 		for (String word : words) {
 			TopDocs topDocs = searchIndex(word, "content", getMaxHits());
-			searchResults.put(word, new SearchResult(searcher,topDocs));
+			searchResults.put(word, new SearchResult(searcher, topDocs));
 		}
-		String html=this.getIndexAsHtml(searchResults);
+		String html = this.getIndexAsHtml(searchResults);
 		output.print(html);
-		output.flush();
+		output.flush();		
+	}
+	
+	/**
+	 * create and search the given Index
+	 * 
+	 * @throws Exception
+	 */
+	protected void work() throws Exception {
+		if (this.showVersion || this.debug)
+			showVersion();
+		if (this.showHelp) {
+			showHelp();
+		} else {
+			doIndex();
+		}
 	}
 
 	/**
@@ -659,7 +693,7 @@ public class Pdfindexer {
 	 * display usage
 	 * 
 	 * @param msg
-	 *          - a message to be displayed (if any)
+	 *            - a message to be displayed (if any)
 	 */
 	public void usage(String msg) {
 		System.err.println(msg);
