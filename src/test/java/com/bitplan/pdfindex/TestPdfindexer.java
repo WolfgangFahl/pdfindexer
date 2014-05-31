@@ -94,6 +94,27 @@ public class TestPdfindexer {
 		String txt=FileUtils.readFileToString(txtFile,"UTF-8");
 		assertTrue(txt.contains("Lorem"));
 	}
+	
+	/**
+	 * show lines for debug
+	 * @param lines
+	 */
+	public void showLines(List<String> lines ){
+		if (debug) {
+			int lineNo = 1;
+			for (String line : lines) {
+				System.out.println("" + lineNo + ":" + line);
+				lineNo++;
+			}
+		}
+	}
+	
+	public void checkLines(List<String> lines, int expectedSize, int lineToCheck,String expectedPart) {
+		showLines(lines);
+		assertEquals(expectedSize, lines.size());
+		String line = lines.get(lineToCheck-1);
+		assertTrue("line "+lineToCheck+" should contain "+expectedPart,line.contains(expectedPart));
+	}
 
 	@Test
 	/**
@@ -105,16 +126,14 @@ public class TestPdfindexer {
 		this.testPdfIndexer(docURI, "test/indices/cajun",
 				"Adobe,IBM,MS-DOS,Adobe Illustrator", htmlOutputFileName);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		if (debug) {
-			int lineNo = 1;
-			for (String line : lines) {
-				System.out.println("" + lineNo + ":" + line);
-				lineNo++;
-			}
-		}
-		assertEquals(35, lines.size());
-		String line = lines.get(23);
-		assertTrue(line.contains("cajun.pdf#page=5"));
+		/**
+		 * 24:        <li>Adobe Illustrator:2
+     * 25:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf'>http://eprints.nottingham.ac.uk/249/1/cajun.pdf</a><br/>
+     * 26:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=4' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=4'>4</a>
+     * 27:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5'>5</a>
+     * 28:        </li>   
+		 */
+		checkLines(lines,41,27,"cajun.pdf#page=5");
 	}
 
 	@Test
@@ -125,9 +144,7 @@ public class TestPdfindexer {
 				"--outputfile", htmlOutputFileName };
 		this.testPdfIndexer(args);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		assertEquals(44, lines.size());
-		String line = lines.get(13);
-		assertTrue(line.contains("cajun.pdf#page=1"));
+		checkLines(lines,49, 16,"cajun.pdf#page=1");
 	}
 
 }

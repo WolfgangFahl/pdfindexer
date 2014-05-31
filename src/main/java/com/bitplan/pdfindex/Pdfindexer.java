@@ -59,7 +59,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the Pdfindexer tool
 	 */
-	public static final String VERSION = "0.0.4";
+	public static final String VERSION = "0.0.5";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
@@ -650,6 +650,7 @@ public class Pdfindexer {
 		String html = this.getIndexAsHtml(searchResults);
 		output.print(html);
 		output.flush();		
+		output.close();
 	}
 	
 	/**

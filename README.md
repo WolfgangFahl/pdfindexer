@@ -22,7 +22,7 @@ see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) f
 * Keywords: https://github.com/WolfgangFahl/pdfindexer/blob/master/test/searchwords.txt
 * Result:  [Lorem Ipsum PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open html source")
 
-    java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchWordList test/searchwords.txt --root test/ 
+    java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchKeyWordList test/searchwords.txt --root test/ 
      
 resulting html file is in test/html/pdfindex.html
 
