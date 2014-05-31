@@ -10,12 +10,17 @@
 package com.bitplan.pdfindex;
 
 import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
 import org.junit.Test;
+
 import com.bitplan.pdfindex.Pdfindexer;
 
 /**
@@ -146,5 +151,56 @@ public class TestPdfindexer {
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
 		checkLines(lines,49, 16,"cajun.pdf#page=1");
 	}
+	
+	public void checkHtml(String html, int expectedTagCount) {
+		CleanerProperties props = new CleanerProperties();
+		// set some properties to non-default values
+		props.setTranslateSpecialEntities(true);
+		props.setTransResCharsToNCR(true);
+		props.setOmitComments(true);
+		 
+		// do parsing
+		TagNode tagNode = new HtmlCleaner(props).clean(
+		    html
+		);
+		TagNode[] tags = tagNode.getAllElements(true);
+		if (debug) {
+			System.out.println("found: "+tags.length+" tags");
+		}
+		assertEquals("html #of tags",expectedTagCount,tags.length);
+	}
 
+	@Test
+	public void testBigPDF() throws IOException {
+		String htmlOutputFileName = "test/bigpdf.html";
+		String bigPDF="http://www.manning.com/lowagie/sample-ch03_Lowagie.pdf"; // 29 page pdf document
+		String[] args = { "--idxfile",
+				"test/indices/bigpdf", "--keyWords", "Acrobat,Adobe,base64,document,encrypted,file,Forms,FDF,ISO,PDF,version,XML,XMP,XDP",
+				"--outputfile", htmlOutputFileName, bigPDF };
+		this.testPdfIndexer(args);
+		String html=FileUtils.readFileToString(new File(htmlOutputFileName));
+		assertTrue(html.contains("</html>"));
+		checkHtml(html,169);
+	}
+	
+	/**
+	 * test BITPlan internal usage of Pdfindexer for CPSA-F 
+	 * visit http://www.bitplan.com if you are interested in the CPSA-F Software architecture course
+	@Test
+	public void testBITPlan() throws IOException {
+		String htmlOutputFileName = "/tmp/cpsa-f.html";
+		String path="/Volumes/bitplan/Projekte/2009/CPSAMaterial2009/english/Folien/pdf";
+		String[] args = { 
+				"--sourceFileList", path+"/pdffiles.lst",
+			  "--outputfile",htmlOutputFileName,
+			  "--searchKeyWordList", path+"/searchwords.txt",
+			  "--root",path+"/",
+			  "--idxfile", path+"/index",
+			  "--title", "CPSA-F English"};
+		this.testPdfIndexer(args);
+		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
+		showLines(lines);
+		
+	}
+	*/
 }

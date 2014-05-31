@@ -42,6 +42,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.pdfbox.Version;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -111,6 +112,9 @@ public class Pdfindexer {
 
 	@Option(name = "-w", aliases = { "--searchKeyWordList" }, usage = "file with search words")
 	private String searchWordList;
+	
+	@Argument
+  private List<String> arguments = new ArrayList<String>();
 
 	private static Pdfindexer indexer;
 	private CmdLineParser parser;
@@ -482,6 +486,11 @@ public class Pdfindexer {
 				result.addAll(getFilesToIndex(aFilepath));
 			}
 		}
+		if (this.arguments.size()>0) {
+			for (String aFilepath:arguments) {
+				result.addAll(getFilesToIndex(aFilepath));
+			}
+		}
 		return result;
 	}
 
@@ -619,7 +628,7 @@ public class Pdfindexer {
 	protected void doIndex() throws Exception {
 		List<DocumentSource> sources = null;
 		if ((this.getSource() != null)
-				|| (this.getSourceFileList() != null)) {
+				|| (this.getSourceFileList() != null) || this.arguments.size()>0) {
 			sources = createIndex();
 			if (this.extract) {
 				for (DocumentSource source : sources) {
