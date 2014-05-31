@@ -22,7 +22,7 @@ see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) f
 * Keywords: https://github.com/WolfgangFahl/pdfindexer/blob/master/test/searchwords.txt
 * Result:  [Lorem Ipsum PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfindex.html "Click to open html source")
 
-    java -jar target/com.bitplan.pdfindex-0.0.1.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchKeyWordList test/searchwords.txt --root test/ 
+    java -jar pdfindex.jar --sourceFileList test/pdffiles.lst --idxfile test/index2 --outputfile test/html/pdfindex.html --searchKeyWordList test/searchwords.txt --root test/ 
      
 resulting html file is in test/html/pdfindex.html
 
@@ -33,7 +33,7 @@ PDF text from the University of Notthingham about how to publish journals using 
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
 # Usage
-		Pdfindexer Version: 0.0.3
+		Pdfindexer Version: 0.0.5
 		
 		 github: https://github.com/WolfgangFahl/pdfindexer.git
 		
@@ -76,4 +76,6 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -w (--searchKeyWordList) VAL : file with search words
 		 
 ## Version history
-0.0.4: adds text extract feature		 
+0.0.3 - 2013      : first published version
+0.0.4 - 2013      : adds text extract feature
+0.0.5 - 2014-05-31: fixes template - fixes this readme  - allows positional command line arguments
