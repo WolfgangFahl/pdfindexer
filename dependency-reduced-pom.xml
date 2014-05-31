@@ -4,7 +4,7 @@
   <groupId>com.bitplan.pdfindex</groupId>
   <artifactId>com.bitplan.pdfindex</artifactId>
   <name>com.bitplan.pdfindex</name>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
   <description>pdf index creator</description>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
