@@ -2,7 +2,8 @@
 ==========
 
 ### Purpose
-Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
+Index and search for keywords in PDF sources (files and URLs) using Apache Lucene and PDFBox
+The result will be put in a HTML file - the layout can be modified using a Freemarker template
 
 ### Project
 * Open Source hosted at https://github.com/WolfgangFahl/pdfindexer
@@ -14,8 +15,13 @@ Index and search PDF sources (files and URLs) using Apache Lucene and PDFBox
 * cd pdfindexer
 * mvn install
 
+### Integration into Development enviroment
+* The approach from http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github is used
+
+
 # Examples
 see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) for example input and results
+see Usage below for how to run pdfindexer from command line
 
 ### Lorem Ipsum
 * Source: [Lorem Ipsum PDF](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/pdfsource1/LoremIpsum.pdf "Click to open PDF source")
@@ -33,7 +39,13 @@ PDF text from the University of Notthingham about how to publish journals using 
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
 # Usage
-		Pdfindexer Version: 0.0.5
+## Directly from jar
+  java -jar pdfindexer.jar [options]
+  
+see usage page below
+  
+## Usage page
+		Pdfindexer Version: 0.0.6
 		
 		 github: https://github.com/WolfgangFahl/pdfindexer.git
 		
@@ -42,7 +54,7 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -d (--debug)                 : debug
 		                                create additional debug output if this switch
 		                                is used
-     -e (--autoescape)            : autoescape blanks
+		 -e (--autoescape)            : autoescape blanks
 			                              set to off if you'd like to use lucene query
 			                              syntax		                                
 		 -f (--src) VAL               : source url, directory/or file
@@ -71,15 +83,20 @@ PDF text from the University of Notthingham about how to publish journals using 
 		 -t (--templateName) VAL      : name of Freemarker template to be used
 		 -v (--version)               : showVersion
 		                                show current version if this switch is used
-	   -x (--extract)               : extract text
+		 -x (--extract)               : extract text
                                     extract text content to files	                                
 		 -w (--searchKeyWordList) VAL : file with search words
-		 
+
+## Modifying the template
+		 src/main/resources/templates 
+contains the default freemarker template "defaultindex.ftl". 
+You  might want to modify it our create your own template and use the -t/--templateName option to use it.
+
 ## Version history
-0.0.3 - 2013      : first published version
-0.0.4 - 2013      : adds text extract feature
-0.0.5 - 2014-05-31: fixes template - fixes this README  - allows positional command line arguments
-0.0.6 - 2014-08-18: fixes bug - adds Apache License to README - adds github as maven repository
+* 0.0.3 - 2013      : first published version
+* 0.0.4 - 2013      : adds text extract feature
+* 0.0.5 - 2014-05-31: fixes template - fixes this README  - allows positional command line arguments
+* 0.0.6 - 2014-08-18: fixes bug - adds Apache License to README - adds github as maven repository
 
 ## Copyright
 Copyright 2013-2014 BITPlan GmbH
