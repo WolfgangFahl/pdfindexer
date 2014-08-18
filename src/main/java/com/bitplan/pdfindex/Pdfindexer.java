@@ -1,11 +1,22 @@
 /**
- * Copyright (C) 2013 BITPlan GmbH
+ * Copyright (C) 2013-2014 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
  *
  * http://www.bitplan.com
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
  */
 package com.bitplan.pdfindex;
 
@@ -324,7 +335,7 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * allow different Document Sources
+	 * allow different Document Sources e.g. from file or from uri
 	 * 
 	 * @author wf
 	 * 
@@ -334,7 +345,7 @@ public class Pdfindexer {
 		URL uri;
 
 		/**
-		 * create DocumentSource from pFile
+		 * create DocumentSource from the given File pFile
 		 * 
 		 * @param pFile
 		 */
@@ -343,7 +354,7 @@ public class Pdfindexer {
 		}
 
 		/**
-		 * create a DocumentSource from an URL
+		 * create a DocumentSource from the given URL pUrl
 		 * 
 		 * @param pUrl
 		 */
@@ -352,9 +363,9 @@ public class Pdfindexer {
 		}
 
 		/**
-		 * get the Document
+		 * get the PDDocument for this DocmentSource
 		 * 
-		 * @return
+		 * @return the PDDocument for my source or null if there is none
 		 * @throws IOException
 		 */
 		public PDDocument getDocument() throws IOException {
@@ -422,9 +433,14 @@ public class Pdfindexer {
 		pddDocument.close();
 	}
 
+	/**
+	 * close
+	 * @throws Exception
+	 */
 	private void close() throws Exception {
-		getIndexWriter().optimize();
-		getIndexWriter().close();
+		IndexWriter indexWriter = getIndexWriter();
+		indexWriter.optimize();
+		indexWriter.close();
 	}
 
 	/**

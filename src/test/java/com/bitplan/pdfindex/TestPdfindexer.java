@@ -1,11 +1,22 @@
 /**
- * Copyright (C) 2013 BITPlan GmbH
+ * Copyright (C) 2013-2014 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
  *
  * http://www.bitplan.com
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
  */
 package com.bitplan.pdfindex;
 
@@ -19,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.bitplan.pdfindex.Pdfindexer;
@@ -152,6 +164,11 @@ public class TestPdfindexer {
 		checkLines(lines,49, 16,"cajun.pdf#page=1");
 	}
 	
+	/**
+	 * check the given html text
+	 * @param html
+	 * @param expectedTagCount
+	 */
 	public void checkHtml(String html, int expectedTagCount) {
 		CleanerProperties props = new CleanerProperties();
 		// set some properties to non-default values
@@ -186,21 +203,29 @@ public class TestPdfindexer {
 	/**
 	 * test BITPlan internal usage of Pdfindexer for CPSA-F 
 	 * visit http://www.bitplan.com if you are interested in the CPSA-F Software architecture course
-	@Test
+	 */
+	// Ignore this test on the OpenSource version
+	@Ignore
 	public void testBITPlan() throws IOException {
-		String htmlOutputFileName = "/tmp/cpsa-f.html";
-		String path="/Volumes/bitplan/Projekte/2009/CPSAMaterial2009/english/Folien/pdf";
-		String[] args = { 
-				"--sourceFileList", path+"/pdffiles.lst",
-			  "--outputfile",htmlOutputFileName,
-			  "--searchKeyWordList", path+"/searchwords.txt",
-			  "--root",path+"/",
-			  "--idxfile", path+"/index",
-			  "--title", "CPSA-F English"};
-		this.testPdfIndexer(args);
-		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		showLines(lines);
+		
+		String base="/Volumes/bitplan/Projekte/2009/CPSAMaterial2009/";
+		String paths[]={"Folien/pdf","english/Folien/pdf"};
+		String langs[]={"Deutsch", "English"};
+		int index=0;
+		for (String path:paths) {
+			String lang=langs[index++];
+			String htmlOutputFileName = "/tmp/cpsa-f_"+lang+".html";
+			String[] args = { 
+					"--sourceFileList", base+path+"/pdffiles.lst",
+				  "--outputfile",htmlOutputFileName,
+				  "--searchKeyWordList", base+path+"/searchwords.txt",
+				  "--root",base+path+"/",
+				  "--idxfile", base+path+"/index",
+				  "--title", "CPSA-F "+lang};
+			this.testPdfIndexer(args);
+			List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
+			showLines(lines);
+		}
 		
 	}
-	*/
-}
+} // TestPdfIndexer

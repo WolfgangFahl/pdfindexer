@@ -4,7 +4,7 @@
   <groupId>com.bitplan.pdfindex</groupId>
   <artifactId>com.bitplan.pdfindex</artifactId>
   <name>com.bitplan.pdfindex</name>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <description>pdf index creator</description>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -72,5 +72,12 @@
       </exclusions>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>com.bitplan.pdfindexer.repo</id>
+      <name>Temporary Staging Repository for pdfindexer</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
 </project>
 
