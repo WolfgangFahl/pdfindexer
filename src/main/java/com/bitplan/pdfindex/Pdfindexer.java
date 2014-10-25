@@ -71,7 +71,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the Pdfindexer tool
 	 */
-	public static final String VERSION = "0.0.5";
+	public static final String VERSION = "0.0.6";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
@@ -233,8 +233,7 @@ public class Pdfindexer {
 	}
 
 	/**
-	 * @param sourceDirectory
-	 *            the sourceDirectory to set
+	 * @param source  - the sourceDirectory to set
 	 */
 	public void setSource(String source) {
 		this.source = source;
@@ -318,8 +317,8 @@ public class Pdfindexer {
 	/**
 	 * get an Index Writer
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @return the IndexWriter
+	 * @throws Exception - if there is a failure
 	 */
 	public IndexWriter getIndexWriter() throws Exception {
 		if (writer == null) {
@@ -445,9 +444,9 @@ public class Pdfindexer {
 
 	/**
 	 * get the sources to index
-	 * 
-	 * @return
-	 * @throws MalformedURLException
+	 * @param pSource - the source to get the files to index from
+	 * @return - the list of document sournce
+	 * @throws MalformedURLException - if there is a wrong url
 	 */
 	public List<DocumentSource> getFilesToIndex(String pSource)
 			throws MalformedURLException {
