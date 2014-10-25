@@ -6,17 +6,6 @@
  *
  * http://www.bitplan.com
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
  */
 package com.bitplan.rest.freemarker;
 
@@ -51,7 +40,7 @@ public class FreeMarkerConfiguration {
 	
 	/**
 	 * add a path to the template path
-	 * @param path
+	 * @param path - the path to add 
 	 */
 	public static void addTemplatePath(String path) {
 		templatePaths.add(path);
@@ -60,9 +49,9 @@ public class FreeMarkerConfiguration {
 	}
 	
 	/**
-	 * add the given template class
-	 * @param clazz
-	 * @param path
+	 * add the given template class from the given clazz
+	 * @param clazz the Class to add
+	 * @param path the path to use
 	 */
 	@SuppressWarnings("rawtypes")
 	public static void addTemplateClass(Class clazz, String path) {
@@ -76,9 +65,8 @@ public class FreeMarkerConfiguration {
 	
 	/**
 	 * get the freemarker configuration
-	 * @param templatePaths
-	 * @return
-	 * @throws IOException
+	 * @return the configuration
+	 * @throws IOException if an I/O problem occurs
 	 */
 	public static freemarker.template.Configuration getFreemarkerConfiguration() throws IOException {
 		if (cfg == null) {
@@ -111,10 +99,10 @@ public class FreeMarkerConfiguration {
 	}
 
 	/**
-	 * 
-	 * @param templateName
-	 * @return
-	 * @throws IOException 
+	 * get the Template with the given name
+	 * @param templateName - the name of the template to look for
+	 * @return - the matching Template
+	 * @throws IOException  - in case of an I/O problem
 	 */
 	public static Template getTemplate(String templateName) throws IOException {
 		Template result = getFreemarkerConfiguration().getTemplate(templateName);
@@ -123,10 +111,10 @@ public class FreeMarkerConfiguration {
 
 	/**
 	 * process the given template with the given map
-	 * @param templateName
-	 * @param rootMap
-	 * @return
-	 * @throws Exception
+	 * @param templateName - the name of the template to use
+	 * @param rootMap - the map to pass on to Freemarker's template engine
+	 * @return a String with the result of processing the template
+	 * @throws Exception - in case of failure
 	 */
 	public static String doProcessTemplate(String templateName,Map<String,Object> rootMap) throws Exception {
 		Template template=FreeMarkerConfiguration.getTemplate(templateName);

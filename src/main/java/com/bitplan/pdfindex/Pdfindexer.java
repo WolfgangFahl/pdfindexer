@@ -346,7 +346,7 @@ public class Pdfindexer {
 		/**
 		 * create DocumentSource from the given File pFile
 		 * 
-		 * @param pFile
+		 * @param pFile - the file to use as a document source
 		 */
 		public DocumentSource(File pFile) {
 			file = pFile;
@@ -355,7 +355,7 @@ public class Pdfindexer {
 		/**
 		 * create a DocumentSource from the given URL pUrl
 		 * 
-		 * @param pUrl
+		 * @param pUrl - the url to set
 		 */
 		public DocumentSource(URL pUrl) {
 			uri = pUrl;
@@ -365,7 +365,7 @@ public class Pdfindexer {
 		 * get the PDDocument for this DocmentSource
 		 * 
 		 * @return the PDDocument for my source or null if there is none
-		 * @throws IOException
+		 * @throws IOException - if an I/O problem occurs
 		 */
 		public PDDocument getDocument() throws IOException {
 			PDDocument result = null;
@@ -384,8 +384,8 @@ public class Pdfindexer {
 		/**
 		 * remove root part from path or uri
 		 * 
-		 * @param root
-		 * @return
+		 * @param root - the root part to remove
+		 * @return - the url without this root part
 		 */
 		public String unRooted(String root) {
 			String result = null;
@@ -486,8 +486,8 @@ public class Pdfindexer {
 	/**
 	 * get the sources to Index
 	 * 
-	 * @return
-	 * @throws IOException
+	 * @return the list of documents to index
+	 * @throws IOException - if an I/O problem occurs
 	 */
 	public List<DocumentSource> getSourcesToIndex() throws IOException {
 		List<DocumentSource> result = new ArrayList<DocumentSource>();
@@ -534,10 +534,10 @@ public class Pdfindexer {
 	 * -a-search-engine-to-parse-index-and-search-pdf-file-content/ search the
 	 * 
 	 * @return hits for the query
-	 * @param qString
-	 * @param idxField
-	 * @param limit
-	 * @return
+	 * @param qString - the query string
+	 * @param idxField - the index field
+	 * @param limit - the maximum number of results
+	 * @return - the TopDocs retrieved from the index
 	 */
 	protected TopDocs searchIndex(String qString, String idxField, int limit) {
 		TopDocs topDocs = null;
@@ -583,8 +583,8 @@ public class Pdfindexer {
 	/**
 	 * get Output
 	 * 
-	 * @return
-	 * @throws FileNotFoundException
+	 * @return the output as a PrintWriter
+	 * @throws FileNotFoundException - if getOutput fails
 	 */
 	public PrintWriter getOutput() throws FileNotFoundException {
 		PrintWriter output = new PrintWriter(System.out);
@@ -599,8 +599,8 @@ public class Pdfindexer {
 	/**
 	 * get the search words
 	 * 
-	 * @return
-	 * @throws Exception
+	 * @return the list of search words
+	 * @throws Exception if a problem occurs
 	 */
 	public List<String> getSearchWords() throws Exception {
 		List<String> result = new ArrayList<String>();
@@ -618,9 +618,9 @@ public class Pdfindexer {
 	/**
 	 * get the Index as html
 	 * 
-	 * @param searchResults
-	 * @return
-	 * @throws Exception
+	 * @param searchResults - a map of search results
+	 * @return a string e.g. html as a formatted version of these results
+	 * @throws Exception - it there is a problem
 	 */
 	public String getIndexAsHtml(SortedMap<String, SearchResult> searchResults)
 			throws Exception {
@@ -638,7 +638,7 @@ public class Pdfindexer {
 
 	/**
 	 * create the index
-	 * @throws Exception
+	 * @throws Exception -if a problem occurs
 	 */
 	protected void doIndex() throws Exception {
 		List<DocumentSource> sources = null;
@@ -680,7 +680,7 @@ public class Pdfindexer {
 	/**
 	 * create and search the given Index
 	 * 
-	 * @throws Exception
+	 * @throws Exception if a problem occurs
 	 */
 	protected void work() throws Exception {
 		if (this.showVersion || this.debug)
@@ -695,7 +695,7 @@ public class Pdfindexer {
 	/**
 	 * handle the given Throwable
 	 * 
-	 * @param t
+	 * @param t the Throwable to handle
 	 */
 	public void handle(Throwable t) {
 		System.out.flush();
@@ -738,7 +738,9 @@ public class Pdfindexer {
 	/**
 	 * main routine
 	 * 
-	 * @param args
+	 * @param args - the command line arguments
+	 * @return - the exit statusCode
+	 * 
 	 */
 	public int maininstance(String[] args) {
 		parser = new CmdLineParser(this);
@@ -760,7 +762,7 @@ public class Pdfindexer {
 	/**
 	 * main routine
 	 * 
-	 * @param args
+	 * @param args - command line arguments
 	 */
 	public static void main(String[] args) {
 		indexer = new Pdfindexer();

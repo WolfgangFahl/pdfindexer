@@ -71,7 +71,7 @@ public class SearchResult {
 	
 	/**
 	 * get the Documents (sorted by pagenumber)
-	 * @return
+	 * @return the list of documents
 	 */
 	public List<Document> getDocs() {
 		List<Document> result=new ArrayList<Document>();
