@@ -1,12 +1,12 @@
 <!--
-	Copyright 2013-2014 BITPlan GmbH
+	Copyright 2013-2015 BITPlan GmbH
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<name>com.bitplan.pdfindex</name>
 	<description>pdf index creator</description>
 	<!-- see http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github
@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox-lucene</artifactId>
-			<version>1.8.1</version>
+			<version>1.8.4</version>
 		</dependency>
 		<!-- freemarker template -->
 		<dependency>

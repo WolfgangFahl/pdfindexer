@@ -45,7 +45,7 @@ PDF text from the University of Notthingham about how to publish journals using 
 see usage page below
   
 ## Usage page
-		Pdfindexer Version: 0.0.6
+		Pdfindexer Version: 0.0.7
 		
 		 github: https://github.com/WolfgangFahl/pdfindexer.git
 		
@@ -97,9 +97,10 @@ You  might want to modify it our create your own template and use the -t/--templ
 * 0.0.4 - 2013      : adds text extract feature
 * 0.0.5 - 2014-05-31: fixes template - fixes this README  - allows positional command line arguments
 * 0.0.6 - 2014-08-18: fixes bug - adds Apache License to README - adds github as maven repository
+* 0.0.7 - 2015-02-13: upgrade to apache pdfbox 1.8.4 to avoid bug https://issues.apache.org/jira/browse/PDFBOX-1541
 
 ## Copyright
-Copyright 2013-2014 BITPlan GmbH
+Copyright 2013-2015 BITPlan GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
