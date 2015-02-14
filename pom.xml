@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 	<name>com.bitplan.pdfindex</name>
 	<description>pdf index creator</description>
 	<!-- see http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github
@@ -22,6 +22,7 @@
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox-lucene</artifactId>
+			<!--  needs 1.8.9 when available -->
 			<version>1.8.8</version>
 		</dependency>
 		<!-- freemarker template -->
