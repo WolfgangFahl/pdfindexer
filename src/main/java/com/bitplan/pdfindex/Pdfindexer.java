@@ -23,6 +23,7 @@ package com.bitplan.pdfindex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -373,10 +374,11 @@ public class Pdfindexer {
 				if (!file.canRead())
 					throw new IllegalArgumentException(
 							"addToIndex called with unreadable source "
-									+ file.getPath());
-				result = PDDocument.load(file);
+									+ file.getPath());				
+				result = PDDocument.loadNonSeq(file, null);
 			} else {
-				result = PDDocument.load(uri);
+			  InputStream input = uri.openStream();
+				result = PDDocument.loadNonSeq(input,null);
 			}
 			return result;
 		}
