@@ -72,7 +72,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the Pdfindexer tool
 	 */
-	public static final String VERSION = "0.0.6";
+	public static final String VERSION = "0.0.9";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;

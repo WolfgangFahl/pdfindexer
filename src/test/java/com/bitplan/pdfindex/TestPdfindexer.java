@@ -190,14 +190,14 @@ public class TestPdfindexer {
 	@Test
 	public void testBigPDF() throws IOException {
 		String htmlOutputFileName = "test/bigpdf.html";
-		String bigPDF="http://www.manning.com/lowagie/sample-ch03_Lowagie.pdf"; // 29 page pdf document
+		String bigPDF="https://manning-content.s3.amazonaws.com/download/0/ceadd4a-9f9c-4958-9892-06047c02651e/sample-ch01_Lowagie.pdf"; // 29 page pdf document
 		String[] args = { "--idxfile",
 				"test/indices/bigpdf", "--keyWords", "Acrobat,Adobe,base64,document,encrypted,file,Forms,FDF,ISO,PDF,version,XML,XMP,XDP",
 				"--outputfile", htmlOutputFileName, bigPDF };
 		this.testPdfIndexer(args);
 		String html=FileUtils.readFileToString(new File(htmlOutputFileName));
 		assertTrue(html.contains("</html>"));
-		checkHtml(html,169);
+		checkHtml(html,116);
 	}
 	
 	/**
