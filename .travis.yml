@@ -1,0 +1,4 @@
+# this is a java project using maven
+language: java
+# switch off gpg handling
+install: mvn install -DskipTests=true -Dgpg.skip=true
