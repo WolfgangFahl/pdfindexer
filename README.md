@@ -6,6 +6,8 @@ Index and search for keywords in PDF sources (files and URLs) using Apache Lucen
 The result will be put in a HTML file - the layout can be modified using a Freemarker template
 
 ### Project
+[![Build Status](https://travis-ci.org/WolfgangFahl/pdfindexer.svg?branch=master)](https://travis-ci.org/WolfgangFahl/pdfindexer)
+
 * Open Source hosted at https://github.com/WolfgangFahl/pdfindexer
 * License based on license of libraries used (see [pom.xml](https://github.com/WolfgangFahl/pdfindexer/blob/master/pom.xml))
 * Maven based Java project including JUnit 4 tests.
