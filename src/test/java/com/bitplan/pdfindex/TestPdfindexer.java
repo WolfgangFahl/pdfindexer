@@ -126,6 +126,13 @@ public class TestPdfindexer {
 		}
 	}
 	
+	/**
+	 * check the lines
+	 * @param lines
+	 * @param expectedSize
+	 * @param lineToCheck
+	 * @param expectedPart
+	 */
 	public void checkLines(List<String> lines, int expectedSize, int lineToCheck,String expectedPart) {
 		showLines(lines);
 		assertEquals(expectedSize, lines.size());
@@ -143,6 +150,7 @@ public class TestPdfindexer {
 		this.testPdfIndexer(docURI, "test/indices/cajun",
 				"Adobe,IBM,MS-DOS,Adobe Illustrator", htmlOutputFileName);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
+		// result has slighly changed as of 2016-04
 		/**
 		 * 24:        <li>Adobe Illustrator:2
      * 25:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf'>http://eprints.nottingham.ac.uk/249/1/cajun.pdf</a><br/>
@@ -150,7 +158,7 @@ public class TestPdfindexer {
      * 27:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5'>5</a>
      * 28:        </li>   
 		 */
-		checkLines(lines,41,27,"cajun.pdf#page=5");
+		checkLines(lines,41,26,"cajun.pdf#page=5");
 	}
 
 	@Test
@@ -161,7 +169,7 @@ public class TestPdfindexer {
 				"--outputfile", htmlOutputFileName };
 		this.testPdfIndexer(args);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		checkLines(lines,49, 16,"cajun.pdf#page=1");
+		checkLines(lines,50, 16,"cajun.pdf#page=2");
 	}
 	
 	/**
