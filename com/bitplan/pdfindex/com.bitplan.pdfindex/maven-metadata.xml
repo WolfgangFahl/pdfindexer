@@ -3,11 +3,12 @@
   <groupId>com.bitplan.pdfindex</groupId>
   <artifactId>com.bitplan.pdfindex</artifactId>
   <versioning>
-    <release>0.0.7</release>
+    <release>0.0.9</release>
     <versions>
       <version>0.0.6</version>
       <version>0.0.7</version>
+      <version>0.0.9</version>
     </versions>
-    <lastUpdated>20150214112043</lastUpdated>
+    <lastUpdated>20160412095610</lastUpdated>
   </versioning>
 </metadata>
