@@ -1,5 +1,4 @@
 ## pdfindexer
-==========
 
 ### Purpose
 Index and search for keywords in PDF sources (files and URLs) using Apache Lucene and PDFBox
