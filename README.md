@@ -10,6 +10,9 @@
 
 ### Documentation
 * [Wiki](http://www.bitplan.com/PdfIndexer)
+* [pdfindexer Project pages](https://WolfgangFahl.github.io/pdfindexer)
+* [Javadoc](https://WolfgangFahl.github.io/pdfindexer/apidocs/index.html)
+* [Test-Report](https://WolfgangFahl.github.io/pdfindexer/surefire-report.html)
 ### Maven dependency
 
 Maven dependency
