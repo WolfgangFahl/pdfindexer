@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2016 BITPlan GmbH
+ * Copyright (C) 2013-2018 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -70,9 +70,9 @@ import com.bitplan.rest.freemarker.FreeMarkerConfiguration;
  */
 public class Pdfindexer {
 	/**
-	 * current Version of the Pdfindexer tool
+	 * current Version of the PDF indexer tool
 	 */
-	public static final String VERSION = "0.0.9";
+	public static final String VERSION = "0.0.11";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;

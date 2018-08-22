@@ -1,24 +1,41 @@
-## pdfindexer
+### pdfindexer
+[Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box](http://www.bitplan.com/PdfIndexer) 
+
+[![Travis (.org)](https://img.shields.io/travis/WolfgangFahl/pdfindexer.svg)](https://travis-ci.org/WolfgangFahl/pdfindexer)
+[![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.pdfindex/com.bitplan.pdfindex.svg)](https://search.maven.org/artifact/com.bitplan.pdfindex/com.bitplan.pdfindex/0.0.11/jar)
+[![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/pdfindexer.svg)](https://github.com/WolfgangFahl/pdfindexer/issues)
+[![GitHub issues](https://img.shields.io/github/issues-closed/WolfgangFahl/pdfindexer.svg)](https://github.com/WolfgangFahl/pdfindexer/issues/?q=is%3Aissue+is%3Aclosed)
+[![GitHub](https://img.shields.io/github/license/WolfgangFahl/pdfindexer.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![BITPlan](http://wiki.bitplan.com/images/wiki/thumb/3/38/BITPlanLogoFontLessTransparent.png/198px-BITPlanLogoFontLessTransparent.png)](http://www.bitplan.com)
+
+### Documentation
+* [Wiki](http://www.bitplan.com/PdfIndexer)
+### Maven dependency
+
+Maven dependency
+```xml
+<dependency>
+  <groupId>com.bitplan.pdfindex</groupId>
+  <artifactId>com.bitplan.pdfindex</artifactId>
+  <version>0.0.11</version>
+</dependency>
+```
+
+[Current release at repo1.maven.org](http://repo1.maven.org/maven2/com/bitplan/pdfindex/com.bitplan.pdfindex/0.0.11/)
+
+### How to build
+```
+git clone https://github.com/WolfgangFahl/pdfindexer
+cd pdfindexer
+mvn install
+```
 
 ### Purpose
 Index and search for keywords in PDF sources (files and URLs) using Apache Lucene and PDFBox
 The result will be put in a HTML file - the layout can be modified using a Freemarker template
 
-### Project
-[![Build Status](https://travis-ci.org/WolfgangFahl/pdfindexer.svg?branch=master)](https://travis-ci.org/WolfgangFahl/pdfindexer)
-
-* Open Source hosted at https://github.com/WolfgangFahl/pdfindexer
-* License based on license of libraries used (see [pom.xml](https://github.com/WolfgangFahl/pdfindexer/blob/master/pom.xml))
-* Maven based Java project including JUnit 4 tests.
-
-### How to build
-* git clone https://github.com/WolfgangFahl/pdfindexer
-* cd pdfindexer
-* mvn install
-
 ### Integration into Development enviroment
 * The approach from http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github is used
-
 
 # Examples
 see [test folder](https://github.com/WolfgangFahl/pdfindexer/tree/master/test) for example input and results
@@ -92,7 +109,6 @@ see usage page below
 		 src/main/resources/templates 
 contains the default freemarker template "defaultindex.ftl". 
 You  might want to modify it our create your own template and use the -t/--templateName option to use it.
-
 ## Version history
 * 0.0.3 - 2013      : first published version
 * 0.0.4 - 2013      : adds text extract feature

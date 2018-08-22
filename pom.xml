@@ -1,20 +1,25 @@
-<!--
-	Copyright 2013-2015 BITPlan GmbH
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<!-- Copyright 2013-2018 BITPlan GmbH -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.bitplan.pom</groupId>
+		<artifactId>com.bitplan.pom</artifactId>
+		<version>0.0.9</version>
+		<relativePath>../com.bitplan.pom/pom.xml</relativePath>
+	</parent>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.10</version>
+	<version>0.0.11</version>
 	<name>com.bitplan.pdfindex</name>
-	<description>pdf index creator</description>
-	<!-- see http://stackoverflow.com/questions/14013644/hosting-a-maven-repository-on-github
-		on
-		how you can access this project via maven -->
+	<description>Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box</description>
 	<properties>
-		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
-		<github.global.server>github</github.global.server>
+		<!-- for parent pom to work -->
+		<github.project>pdfindexer</github.project>
+		<github.owner>WolfgangFahl</github.owner>
+		<!--  for README generation -->
+		<documentation.wiki>http://www.bitplan.com/PdfIndexer</documentation.wiki>
 	</properties>
 
 	<dependencies>
@@ -22,44 +27,44 @@
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox-lucene</artifactId>
-			<version>1.8.13</version>
+			<version>${pdfbox-lucene.version}</version>
 		</dependency>
 		<!-- freemarker template -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.19</version>
+			<version>${freemarker.version}</version>
 		</dependency>
 		<!-- commons io -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
+			<version>${commons-io.version}</version>
 		</dependency>
 		<!-- commons validator -->
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.4.0</version>
+			<version>${commons-validator.version}</version>
 		</dependency>
 		<!-- args4j command line utility -->
 		<dependency>
 			<groupId>args4j</groupId>
 			<artifactId>args4j</artifactId>
-			<version>2.0.15</version>
+			<version>${args4j.version}</version>
 		</dependency>
 		<!-- Junit during test -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>${junit4.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- HtmlCleaner during test -->
 		<dependency>
 			<groupId>net.sourceforge.htmlcleaner</groupId>
 			<artifactId>htmlcleaner</artifactId>
-			<version>2.2</version>
+			<version>${htmlcleaner.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -71,20 +76,11 @@
 		</repository>
 	</distributionManagement>
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
+				<version>${maven-shade-plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -109,41 +105,6 @@
 								</filter>
 							</filters>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- maven deployment -->
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
-				<configuration>
-					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-				</configuration>
-			</plugin>
-			<!-- github maven deployment -->
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.10</version>
-				<configuration>
-					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
-					<branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
-					<includes>
-						<include>**/*</include>
-					</includes>
-					<repositoryName>pdfindexer</repositoryName>      <!-- github repo name -->
-					<repositoryOwner>WolfgangFahl</repositoryOwner>    <!-- github username -->
-				</configuration>
-				<executions>
-					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
-						'deploy' phase -->
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>deploy</phase>
 					</execution>
 				</executions>
 			</plugin>
