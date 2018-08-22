@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>FreeMarkerConfiguration xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../apidocs/com/bitplan/rest/freemarker/FreeMarkerConfiguration.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright (C) 2012-2014 BITPlan GmbH</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * Pater-Delp-Str. 1</em>
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * D-47877 Willich-Schiefbahn</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * <a href="http://www.bitplan.co" target="alexandria_uri">http://www.bitplan.co</a>m</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">package</strong> com.bitplan.<strong class="jxr_keyword">rest</strong>.freemarker;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> java.io.StringWriter;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.util.ArrayList;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> freemarker.cache.ClassTemplateLoader;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> freemarker.cache.FileTemplateLoader;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> freemarker.cache.MultiTemplateLoader;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> freemarker.cache.TemplateLoader;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> freemarker.ext.beans.BeansWrapper;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> freemarker.template.Template;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment"> * supply a free marker configuration</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment"> * @author wf</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/bitplan/rest/freemarker/FreeMarkerConfiguration.html">FreeMarkerConfiguration</a> {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  	
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> freemarker.template.Configuration cfg = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<em class="jxr_comment">// multiple template pathes for files possible</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> List&lt;String&gt; templatePaths=<strong class="jxr_keyword">new</strong> ArrayList&lt;String&gt;();
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<em class="jxr_comment">// list of classes to load templates from</em>
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">static</strong> List&lt;TemplateClass&gt; templateClasses=<strong class="jxr_keyword">new</strong> ArrayList&lt;TemplateClass&gt;();
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  	
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">	 * add a path to the template path</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment">	 * @param path - the path to add </em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> addTemplatePath(String path) {
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		templatePaths.add(path);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		<em class="jxr_comment">// force configuration refresh</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  		cfg=<strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  	}
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  	
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  <em class="jxr_javadoccomment">	 * add the given template class from the given clazz</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * @param clazz the Class to add</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 * @param path the path to use</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  	@SuppressWarnings(<span class="jxr_string">"rawtypes"</span>)
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> addTemplateClass(Class clazz, String path) {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		TemplateClass tClass=<strong class="jxr_keyword">new</strong> <a href="../../../../com/bitplan/rest/freemarker/TemplateClass.html">TemplateClass</a>();
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		tClass.clazz=clazz;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		tClass.path=path;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  		templateClasses.add(tClass);
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		<em class="jxr_comment">// force configuration refresh</em>
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  		cfg=<strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  	}
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  	
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">	 * get the freemarker configuration</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">	 * @return the configuration</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <em class="jxr_javadoccomment">	 * @throws IOException if an I/O problem occurs</em>
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> freemarker.template.Configuration getFreemarkerConfiguration() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  		<strong class="jxr_keyword">if</strong> (cfg == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  			<em class="jxr_comment">// http://freemarker.sourceforge.net/docs/pgui_quickstart_createconfiguration.html</em>
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  			cfg = <strong class="jxr_keyword">new</strong> freemarker.template.Configuration();
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  			<em class="jxr_comment">// Specify the data source where the template files come from.</em>
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  			<em class="jxr_comment">// use multiple sources</em>
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  			List&lt;TemplateLoader&gt; loaderList=<strong class="jxr_keyword">new</strong> ArrayList&lt;TemplateLoader&gt;();
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  			<strong class="jxr_keyword">for</strong> (String templatePath:templatePaths) {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  				loaderList.add(<strong class="jxr_keyword">new</strong> FileTemplateLoader(<strong class="jxr_keyword">new</strong> File(templatePath)));
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  			}
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  			<strong class="jxr_keyword">for</strong> (TemplateClass templateClass:templateClasses) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  				loaderList.add(<strong class="jxr_keyword">new</strong> ClassTemplateLoader(templateClass.clazz,templateClass.path));
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  			}
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  			TemplateLoader[] loaders = <strong class="jxr_keyword">new</strong> TemplateLoader[loaderList.size()];
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  			loaderList.toArray(loaders);
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  			MultiTemplateLoader mtl = <strong class="jxr_keyword">new</strong> MultiTemplateLoader(loaders);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  			cfg.setTemplateLoader(mtl);  
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  			
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  			<em class="jxr_comment">// Specify how templates will see the data-model. This is an advanced</em>
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  			<em class="jxr_comment">// http://freemarker.sourceforge.net/docs/api/freemarker/ext/beans/BeansWrapper.html</em>
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  			BeansWrapper wrapper = <strong class="jxr_keyword">new</strong> BeansWrapper();
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  			wrapper.setSimpleMapWrapper(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  			cfg.setObjectWrapper(wrapper);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  			<em class="jxr_comment">// http://freemarker.org/docs/app_faq.html#faq_number_grouping</em>
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  			cfg.setNumberFormat(<span class="jxr_string">"0.######"</span>); 
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		}
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  		<strong class="jxr_keyword">return</strong> cfg;
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  	}
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">	 * get the Template with the given name</em>
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">	 * @param templateName - the name of the template to look for</em>
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">	 * @return - the matching Template</em>
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">	 * @throws IOException  - in case of an I/O problem</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> Template getTemplate(String templateName) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		Template result = getFreemarkerConfiguration().getTemplate(templateName);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<strong class="jxr_keyword">return</strong> result;
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 	}
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> <em class="jxr_javadoccomment">	 * process the given template with the given map</em>
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> <em class="jxr_javadoccomment">	 * @param templateName - the name of the template to use</em>
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> <em class="jxr_javadoccomment">	 * @param rootMap - the map to pass on to Freemarker's template engine</em>
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> <em class="jxr_javadoccomment">	 * @return a String with the result of processing the template</em>
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> <em class="jxr_javadoccomment">	 * @throws Exception - in case of failure</em>
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> String doProcessTemplate(String templateName,Map&lt;String,Object&gt; rootMap) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		Template template=FreeMarkerConfiguration.getTemplate(templateName);
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		StringWriter htmlWriter = <strong class="jxr_keyword">new</strong> StringWriter();
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		template.process(rootMap,htmlWriter);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 		<strong class="jxr_keyword">return</strong> htmlWriter.toString();
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 	}
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2018 <a href="http://www.bitplan.com">BITPlan GmbH</a>. All rights reserved.</div>
+</body>
+</html>
