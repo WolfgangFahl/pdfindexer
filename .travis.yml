@@ -1,4 +1,8 @@
 # this is a java project using maven
 language: java
 # switch off gpg handling
-install: mvn install -Dgpg.skip=true
+# switch own coverage
+install: mvn clean install -D coverage -Dgpg.skip=true
+# put the result on codecov.io
+after_success:
+- bash <(curl -s https://codecov.io/bash)
