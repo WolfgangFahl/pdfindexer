@@ -1,8 +1,9 @@
 ### pdfindexer
-[Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box](http://www.bitplan.com/PdfIndexer) 
+[Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box](http://www.bitplan.com/PdfIndexer)
 
 [![Travis (.org)](https://img.shields.io/travis/WolfgangFahl/pdfindexer.svg)](https://travis-ci.org/WolfgangFahl/pdfindexer)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.pdfindex/com.bitplan.pdfindex.svg)](https://search.maven.org/artifact/com.bitplan.pdfindex/com.bitplan.pdfindex/0.0.11/jar)
+[![codecov](https://codecov.io/gh/WolfgangFahl/pdfindexer/branch/master/graph/badge.svg)](https://codecov.io/gh/WolfgangFahl/pdfindexer)
 [![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/pdfindexer.svg)](https://github.com/WolfgangFahl/pdfindexer/issues)
 [![GitHub issues](https://img.shields.io/github/issues-closed/WolfgangFahl/pdfindexer.svg)](https://github.com/WolfgangFahl/pdfindexer/issues/?q=is%3Aissue+is%3Aclosed)
 [![GitHub](https://img.shields.io/github/license/WolfgangFahl/pdfindexer.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -17,6 +18,7 @@
 
 Maven dependency
 ```xml
+<!-- Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box http://www.bitplan.com/PdfIndexer -->
 <dependency>
   <groupId>com.bitplan.pdfindex</groupId>
   <artifactId>com.bitplan.pdfindex</artifactId>
