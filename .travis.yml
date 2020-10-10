@@ -1,5 +1,9 @@
 # this is a java project using maven
 language: java
+#
+# Java  8 - the stable working environment  see http://wiki.bitplan.com/index.php/Java8 
+#
+jdk: openjdk8
 # switch off gpg handling
 # switch own coverage
 install: mvn clean install -D coverage -Dgpg.skip=true
