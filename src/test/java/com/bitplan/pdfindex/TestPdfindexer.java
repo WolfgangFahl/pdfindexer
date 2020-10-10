@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2018 BITPlan GmbH
+ * Copyright (C) 2013-2020 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -145,7 +145,8 @@ public class TestPdfindexer {
 	 * test using an URI
 	 */
 	public void testURI() throws IOException {
-		String docURI = "http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
+		String docURI = "http://cajun.cs.nott.ac.uk/compsci/epo/papers/samples/ep6x4pns.pdf";
+		    // "http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
 		String htmlOutputFileName = "test/cajun.html";
 		this.testPdfIndexer(docURI, "test/indices/cajun",
 				"Adobe,IBM,MS-DOS,Adobe Illustrator", htmlOutputFileName);
@@ -158,7 +159,7 @@ public class TestPdfindexer {
      * 27:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5'>5</a>
      * 28:        </li>   
 		 */
-		checkLines(lines,41,26,"cajun.pdf#page=4");
+		checkLines(lines,41,26,".pdf#page=4");
 	}
 
 	@Test
@@ -169,7 +170,7 @@ public class TestPdfindexer {
 				"--outputfile", htmlOutputFileName };
 		this.testPdfIndexer(args);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		checkLines(lines,49, 16,"cajun.pdf#page=1");
+		checkLines(lines,36, 16,".pdf#page=1");
 	}
 	
 	/**
