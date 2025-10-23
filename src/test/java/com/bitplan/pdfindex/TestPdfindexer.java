@@ -146,7 +146,9 @@ public class TestPdfindexer {
 	 * test using an URI
 	 */
 	public void testURI() throws IOException {
-		String docURI = "https://nottingham-repository.worktribe.com/OutputFile/1024717";
+		// Original at
+		// https://nottingham-repository.worktribe.com/output/1024711/experience-with-the-use-of-acrobat-in-the-cajun-publishing-project.pdf
+		String docURI = "https://raw.githubusercontent.com/WolfgangFahl/pdfindexer/master/test/cajun-pdf/echt94.pdf";
 		    // "http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
 		String htmlOutputFileName = "test/cajun.html";
 		this.testPdfIndexer(docURI, "test/indices/cajun",
@@ -162,7 +164,7 @@ public class TestPdfindexer {
      * 27:          <a href='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5' title='http://eprints.nottingham.ac.uk/249/1/cajun.pdf#page=5'>5</a>
      * 28:        </li>   
 		 */
-		checkLines(lines,41,26,".pdf#page=4");
+		checkLines(lines,36,26,".pdf#page=3");
 	}
 
 	@Test
@@ -173,7 +175,7 @@ public class TestPdfindexer {
 				"--outputfile", htmlOutputFileName };
 		this.testPdfIndexer(args);
 		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
-		checkLines(lines,36, 16,".pdf#page=1");
+		checkLines(lines,34, 16,".pdf#page=1");
 	}
 	
 	/**

@@ -57,6 +57,8 @@ resulting html file is in test/html/pdfindex.html
 ### Cajun project 
 PDF text from the University of Notthingham about how to publish journals using the brand new Adobe technology (written 1993)
 * Source: https://nottingham-repository.worktribe.com/output/1024711/experience-with-the-use-of-acrobat-in-the-cajun-publishing-project
+Copy in this repo: https://raw.githubusercontent.com/WolfgangFahl/pdfindexer/master/test/cajun-pdf/echt94.pdf
+
 * Keywords: Adobe IBM MS-DOS
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 
@@ -125,3 +127,4 @@ You  might want to modify it our create your own template and use the -t/--templ
 | 0.0.9 | 2015-02-14| and for good measure apache pdfbox 1.8.9 to avoid https://issues.apache.org/jira/browse/PDFBOX-2579
 | 0.0.10 | 2017-04-28| upgrades pdfbox to 1.8.13
 | 0.0.11 | 2018-08-22| fixes #4, fixes #5, upgrades Java to Java8 uses com.bitplan.pom
+| 0.0.12 | 2025-10-23| fixes #9 
