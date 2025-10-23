@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014-2020 BITPlan GmbH
+ * Copyright (C) 2014-2025 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn

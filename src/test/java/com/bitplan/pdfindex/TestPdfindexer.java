@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2020 BITPlan GmbH
+ * Copyright (C) 2013-2025 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -20,10 +20,12 @@
  */
 package com.bitplan.pdfindex;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -33,7 +35,6 @@ import org.htmlcleaner.TagNode;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.bitplan.pdfindex.Pdfindexer;
 
 /**
  * Test the PDF Indexer
@@ -145,12 +146,14 @@ public class TestPdfindexer {
 	 * test using an URI
 	 */
 	public void testURI() throws IOException {
-		String docURI = "http://cajun.cs.nott.ac.uk/compsci/epo/papers/samples/ep6x4pns.pdf";
+		String docURI = "https://nottingham-repository.worktribe.com/OutputFile/1024717";
 		    // "http://eprints.nottingham.ac.uk/249/1/cajun.pdf";
 		String htmlOutputFileName = "test/cajun.html";
 		this.testPdfIndexer(docURI, "test/indices/cajun",
 				"Adobe,IBM,MS-DOS,Adobe Illustrator", htmlOutputFileName);
-		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName));
+
+		List<String> lines = FileUtils.readLines(new File(htmlOutputFileName), StandardCharsets.UTF_8);
+
 		// result has slightly changed as of 2016-04
 		/**
 		 * 24:        <li>Adobe Illustrator:2

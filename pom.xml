@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.bitplan.pdfindex</groupId>
 	<artifactId>com.bitplan.pdfindex</artifactId>
-	<version>0.0.11</version>
+	<version>0.0.12</version>
 	<name>com.bitplan.pdfindex</name>
 	<description>Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box</description>
 	<properties>

@@ -1,7 +1,6 @@
 ### pdfindexer
 [Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box](http://www.bitplan.com/PdfIndexer)
 
-[![Travis (.org)](https://img.shields.io/travis/WolfgangFahl/pdfindexer.svg)](https://travis-ci.org/WolfgangFahl/pdfindexer)
 [![Maven Central](https://img.shields.io/maven-central/v/com.bitplan.pdfindex/com.bitplan.pdfindex.svg)](https://search.maven.org/artifact/com.bitplan.pdfindex/com.bitplan.pdfindex/0.0.11/jar)
 [![codecov](https://codecov.io/gh/WolfgangFahl/pdfindexer/branch/master/graph/badge.svg)](https://codecov.io/gh/WolfgangFahl/pdfindexer)
 [![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/pdfindexer.svg)](https://github.com/WolfgangFahl/pdfindexer/issues)
@@ -22,7 +21,7 @@ Maven dependency
 <dependency>
   <groupId>com.bitplan.pdfindex</groupId>
   <artifactId>com.bitplan.pdfindex</artifactId>
-  <version>0.0.11</version>
+  <version>0.0.12</version>
 </dependency>
 ```
 
@@ -57,7 +56,7 @@ resulting html file is in test/html/pdfindex.html
 
 ### Cajun project 
 PDF text from the University of Notthingham about how to publish journals using the brand new Adobe technology (written 1993)
-* Source: http://eprints.nottingham.ac.uk/249/1/cajun.pdf
+* Source: https://nottingham-repository.worktribe.com/output/1024711/experience-with-the-use-of-acrobat-in-the-cajun-publishing-project
 * Keywords: Adobe IBM MS-DOS
 * Result: [Cajun PDF Index](https://github.com/WolfgangFahl/pdfindexer/blob/master/test/cajun.html "Click to open HTML source") 
 

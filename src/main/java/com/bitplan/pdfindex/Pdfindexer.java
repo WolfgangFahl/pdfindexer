@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2018 BITPlan GmbH
+ * Copyright (C) 2013-2025 BITPlan GmbH
  *
  * Pater-Delp-Str. 1
  * D-47877 Willich-Schiefbahn
@@ -72,7 +72,7 @@ public class Pdfindexer {
 	/**
 	 * current Version of the PDF indexer tool
 	 */
-	public static final String VERSION = "0.0.11";
+	public static final String VERSION = "0.0.12";
 
 	@Option(name = "-d", aliases = { "--debug" }, usage = "debug\ncreate additional debug output if this switch is used")
 	boolean debug = false;
