@@ -1,3 +1,4 @@
+Moved to https://codeberg.org/WolfgangFahl/PdfIndexer
 ### pdfindexer
 [Java Library and Tool to Index and search PDF files using Apache Lucene and PDF Box](http://www.bitplan.com/PdfIndexer)
 
